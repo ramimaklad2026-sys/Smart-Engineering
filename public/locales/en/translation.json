@@ -1,0 +1,9 @@
+{
+    "SignIn": "Sign In",
+    "GetStarted": "Get Started",
+    "hero":{
+        "Eng_Smarter": "Engineering Smarter",
+        "BuildBetter": "Build Better",
+        "intro": "The all-in-one platform for engineers to manage projects, collaborate with teams, convert drawings with AI, and deliver professional results to clients."
+    }
+}

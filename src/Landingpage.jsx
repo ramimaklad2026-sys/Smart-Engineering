@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router";
+import { useTranslation } from 'react-i18next';
 
 // ─── Hook: Intersection Observer for scroll animations ───
 function useInView(threshold = 0.15) {
@@ -97,9 +99,10 @@ const STATS = [
 
 // ─── Sub-components ───
 
-function Navbar({ onNavigate }) {
+function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -107,12 +110,22 @@ function Navbar({ onNavigate }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const changeLanguage = () => {
+    const newLanguage = i18n.language === "en" ? "ar" : "en";
+
+    i18n.changeLanguage(newLanguage);
+
+    document.documentElement.dir =
+      newLanguage === "ar" ? "rtl" : "ltr";
+
+    document.documentElement.lang = newLanguage;
+  };
+
   const navLinks = ["Features", "How It Works", "About"];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? "bg-gray-950/95 backdrop-blur-md border-b border-gray-800/60 py-3" : "bg-transparent py-5"
-    }`}>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-gray-950/95 backdrop-blur-md border-b border-gray-800/60 py-3" : "bg-transparent py-5"
+      }`}>
       <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center gap-2.5">
@@ -143,17 +156,25 @@ function Navbar({ onNavigate }) {
 
         {/* Desktop CTA */}
         <div className="hidden md:flex items-center gap-3">
+          <Link to="/login">
+            <button
+              className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
+            >
+              {t('SignIn')}
+            </button>
+          </Link>
+          <Link to="/register">
+            <button
+              className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
+            >
+              {t('GetStarted')}
+            </button>
+          </Link>
           <button
-            onClick={() => onNavigate("login")}
+            onClick={changeLanguage}
             className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
           >
-            Sign In
-          </button>
-          <button
-            onClick={() => onNavigate("register")}
-            className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
-          >
-            Get Started
+            {i18n.language === 'en' ? 'العربية' : 'English'}
           </button>
         </div>
 
@@ -191,18 +212,20 @@ function Navbar({ onNavigate }) {
             </button>
           ))}
           <div className="pt-2 flex flex-col gap-2">
-            <button
-              onClick={() => onNavigate("login")}
-              className="w-full text-center text-gray-300 border border-gray-700 hover:border-gray-500 text-sm py-2.5 rounded-lg transition-colors"
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => onNavigate("register")}
-              className="w-full text-center bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
-            >
-              Get Started
-            </button>
+            <Link to="/login">
+              <button
+                className="w-full text-center text-gray-300 border border-gray-700 hover:border-gray-500 text-sm py-2.5 rounded-lg transition-colors"
+              >
+                {t('SignIn')}
+              </button>
+            </Link>
+            <Link to="/register">
+              <button
+                className="w-full text-center bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
+              >
+                {t('GetStarted')}
+              </button>
+            </Link>
           </div>
         </div>
       )}
@@ -211,6 +234,7 @@ function Navbar({ onNavigate }) {
 }
 
 function Hero({ onNavigate }) {
+  const { t } = useTranslation();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gray-950">
       {/* Background grid */}
@@ -236,38 +260,41 @@ function Hero({ onNavigate }) {
 
         {/* Headline */}
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 tracking-tight">
-          Build Better.<br />
+          {t('hero.BuildBetter')}<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-            Engineer Smarter.
+            {t('hero.Eng_Smarter')}
           </span>
         </h1>
 
         {/* Subheadline */}
         <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
-          The all-in-one platform for engineers to manage projects, collaborate with teams,
-          convert drawings with AI, and deliver professional results to clients.
+          {t('hero.intro')}
         </p>
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button
-            onClick={() => onNavigate("register")}
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-lg text-base transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
-          >
-            Get Started Free
-          </button>
-          <button
-            onClick={() => {
-              document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-8 py-3.5 rounded-lg text-base transition-all"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            See Features
-          </button>
+          <Link to="/register">
+            <button
+              onClick={() => onNavigate("register")}
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-lg text-base transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
+            >
+              Get Started Free
+            </button>
+          </Link>
+          <Link to="/login">
+            <button
+              onClick={() => {
+                document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-8 py-3.5 rounded-lg text-base transition-all"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              See Features
+            </button>
+          </Link>
         </div>
 
         {/* Stats */}
@@ -317,9 +344,8 @@ function Features() {
           {FEATURES.map((feature, i) => (
             <div
               key={feature.title}
-              className={`group bg-gray-900 border border-gray-800 hover:border-blue-500/40 rounded-xl p-6 transition-all duration-500 hover:bg-gray-900/80 ${
-                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
+              className={`group bg-gray-900 border border-gray-800 hover:border-blue-500/40 rounded-xl p-6 transition-all duration-500 hover:bg-gray-900/80 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                }`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="w-11 h-11 bg-blue-500/10 border border-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 mb-4 group-hover:bg-blue-500/20 transition-colors">
@@ -360,9 +386,8 @@ function HowItWorks() {
           {STEPS.map((step, i) => (
             <div
               key={step.number}
-              className={`relative transition-all duration-500 ${
-                inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-              }`}
+              className={`relative transition-all duration-500 ${inView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+                }`}
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {/* Connector line */}
@@ -391,9 +416,8 @@ function CTA({ onNavigate }) {
       <div className="max-w-4xl mx-auto px-6 text-center">
         <div
           ref={ref}
-          className={`bg-gradient-to-br from-blue-600/20 via-gray-900 to-cyan-600/10 border border-blue-500/20 rounded-2xl p-12 md:p-16 transition-all duration-700 ${
-            inView ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
+          className={`bg-gradient-to-br from-blue-600/20 via-gray-900 to-cyan-600/10 border border-blue-500/20 rounded-2xl p-12 md:p-16 transition-all duration-700 ${inView ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to transform how<br />your team engineers?

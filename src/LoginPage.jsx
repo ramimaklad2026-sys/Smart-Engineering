@@ -1,7 +1,9 @@
 import { useState } from "react";
 import axios from "axios"; 
+import { Link, useNavigate } from "react-router";
 
-export default function LoginPage({ onNavigate, onLoginSuccess }) {
+export default function LoginPage() {
+  const navigate = useNavigate();
   const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -36,20 +38,17 @@ export default function LoginPage({ onNavigate, onLoginSuccess }) {
           },
         }
       );
-
-      console.log("Login successful:", response.data);
       
-      // استخراج التوكن بشكل مرن يغطي الهيكلين المحتملين من السيرفر
       const token = response.data?.token || response.data?.data?.token;
       
       if (token) {
         localStorage.setItem("token", token);
+        navigate("/projects");
       } else {
         console.warn("Token not found in response structure:", response.data);
       }
       
       // الانتقال الآمن إلى صفحة المشاريع
-      onLoginSuccess(); 
       
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Login failed. Please check your credentials.";
@@ -236,6 +235,7 @@ export default function LoginPage({ onNavigate, onLoginSuccess }) {
           {/* Sign up link */}
           <p className="text-center text-sm text-gray-500">
             Don't have an account?{" "}
+            <Link to="/register">
             <button 
               type="button"
               onClick={() => onNavigate("register")} 
@@ -243,6 +243,7 @@ export default function LoginPage({ onNavigate, onLoginSuccess }) {
             >
               Register here
             </button>
+            </Link>
           </p>
         </div>
       </div>

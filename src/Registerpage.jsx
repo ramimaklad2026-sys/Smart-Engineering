@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link, useNavigate } from "react-router";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
-// قائمة التخصصات الهندسية
 const SPECIALTIES = [
   "Civil Engineering",
   "Structural Engineering",
@@ -17,7 +17,8 @@ const SPECIALTIES = [
   "Other",
 ];
 
-export default function RegisterPage({ onNavigate }) {
+export default function RegisterPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,11 +29,9 @@ export default function RegisterPage({ onNavigate }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
-  // ─── حساب قوة كلمة المرور ───
   const getPasswordStrength = (password) => {
     if (!password) return { score: 0, label: "", color: "" };
     let score = 0;
@@ -68,8 +67,6 @@ export default function RegisterPage({ onNavigate }) {
     return null;
   };
 
-  // ─── دالة الإرسال والربط المحدثة والمغلقة الأقواس تماماً ───
-  // ─── دالة الإرسال المتطابقة 100% مع الـ Backend ───
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,32 +80,26 @@ export default function RegisterPage({ onNavigate }) {
     setError("");
 
     try {
-      const dataToSend = new FormData();
-      
-      // 1. نرسل الحقول الأساسية المطلوبة
-      dataToSend.append("name", formData.name);
-      dataToSend.append("email", formData.email);
-      dataToSend.append("password", formData.password);
-      
-      // 2. الحل السحري: إنشاء ملف نصي وهمي وتحويله إلى صيغة ملف لإرضاء السيرفر المنهار
-      const fakeFile = new Blob(["fake image content"], { type: "image/png" });
-      dataToSend.append("avatar", fakeFile, "avatar.png"); // السيرفر سيقرأ اسم الملف "avatar.png" بنجاح!
+      const dataToSend = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role || "USER",
+      };
 
       const response = await axios.post(
         `${API_BASE_URL}/api/users/register`,
-        dataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
+        dataToSend
       );
 
-      console.log("Registration successful:", response.data);
-      setSuccess(true);
-      setTimeout(() => {
-  onNavigate(); // يعيده لصفحة تسجيل الدخول تلقائياً ليجرب حسابه الجديد
-}, 2000);
+      const token = response.data?.token || response.data?.data?.token;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/projects");
+      } else {
+        console.warn("Token not found in response structure:", response.data);
+      }
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Registration failed. Please try again.";
       setError(errorMessage);
@@ -116,32 +107,6 @@ export default function RegisterPage({ onNavigate }) {
       setLoading(false);
     }
   };
-  if (success) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center px-6">
-        <div className="text-center max-w-md">
-          <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2 className="text-2xl font-bold text-white mb-2">Account Created!</h2>
-          <p className="text-gray-400 text-sm mb-8">
-            Welcome to BuildSphere, <span className="text-white font-medium">{formData.name}</span>. Your account is ready.
-          </p>
-          <button
-            onClick={() => {
-              // توجيه المستخدم لصفحة تسجيل الدخول للتجربة
-              alert("تم التسجيل بنجاح! توجه الآن إلى صفحة تسجيل الدخول (Login) لتجربة حسابك.");
-            }}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-lg text-sm transition-colors"
-          >
-            Go to Login
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gray-950 flex">
@@ -302,9 +267,8 @@ export default function RegisterPage({ onNavigate }) {
                     {[1, 2, 3, 4].map((i) => (
                       <div
                         key={i}
-                        className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                          i <= passwordStrength.score ? passwordStrength.color : "bg-gray-700"
-                        }`}
+                        className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= passwordStrength.score ? passwordStrength.color : "bg-gray-700"
+                          }`}
                       />
                     ))}
                   </div>
@@ -312,7 +276,7 @@ export default function RegisterPage({ onNavigate }) {
                     Password strength:{" "}
                     <span className={
                       passwordStrength.score >= 3 ? "text-green-400" :
-                      passwordStrength.score === 2 ? "text-yellow-400" : "text-red-400"
+                        passwordStrength.score === 2 ? "text-yellow-400" : "text-red-400"
                     }>
                       {passwordStrength.label}
                     </span>
@@ -332,13 +296,12 @@ export default function RegisterPage({ onNavigate }) {
                   onChange={handleChange}
                   placeholder="Re-enter your password"
                   required
-                  className={`w-full bg-gray-900 border text-white placeholder-gray-600 rounded-lg px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-1 transition-colors ${
-                    formData.confirmPassword && formData.confirmPassword !== formData.password
-                      ? "border-red-500 focus:border-red-500 focus:ring-red-500"
-                      : formData.confirmPassword && formData.confirmPassword === formData.password
+                  className={`w-full bg-gray-900 border text-white placeholder-gray-600 rounded-lg px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-1 transition-colors ${formData.confirmPassword && formData.confirmPassword !== formData.password
+                    ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                    : formData.confirmPassword && formData.confirmPassword === formData.password
                       ? "border-green-500 focus:border-green-500 focus:ring-green-500"
                       : "border-gray-700 focus:border-blue-500 focus:ring-blue-500"
-                  }`}
+                    }`}
                 />
                 <button
                   type="button"
@@ -401,14 +364,12 @@ export default function RegisterPage({ onNavigate }) {
           {/* Login link */}
           <p className="text-center text-sm text-gray-500 mt-6">
             Already have an account?{" "}
-            <button
-              onClick={() => {
-                alert("Redirect to Login page");
-              }}
-              className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+            <Link to="/Login">
+            <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
             >
               Sign in
             </button>
+            </Link>
           </p>
 
         </div>
