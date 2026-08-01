@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import GeminiChat from "./GeminiChat";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -16,6 +17,7 @@ export default function ProjectDetailsPage({ projectId, onBack }) {
   const [project, setProject] = useState(null);
   const [blueprints, setBlueprints] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isOpenChat, setIsOpenChat] = useState(false);
 
   // إشعارات الباك إند
   const [invitations, setInvitations] = useState([]);
@@ -345,8 +347,16 @@ export default function ProjectDetailsPage({ projectId, onBack }) {
   const statusStyle = STATUS_CONFIG[project?.status || "Pending"] || STATUS_CONFIG["Pending"];
   const inputClass = "w-full bg-[#0d1321] border border-gray-800 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 text-right font-sans";
 
+  const handleOpenChat = () => {
+    if(!isOpenChat) {
+      setIsOpenChat(true);
+    }else{
+      setIsOpenChat(false);
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-[#070a13] text-gray-200 pb-20 font-sans" dir="rtl">
+    <div className="min-h-screen bg-[#070a13] text-gray-200  font-sans" dir="rtl">
       <header className="bg-[#0b0f19] border-b border-gray-900 sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -375,8 +385,12 @@ export default function ProjectDetailsPage({ projectId, onBack }) {
           </div>
         </div>
       </header>
-
-      <main className="max-w-4xl mx-auto px-4 py-6 space-y-6">
+  <div className="grid grid-cols-5 gap-6 w-full">
+        <button onClick={handleOpenChat} className={`fixed top-20 left-2 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md mb-4 z-50 ${isOpenChat ? 'bg-red-600 hover:bg-red-500' : '' }`}>
+          {isOpenChat ? "إغلاق المساعد الذكي " : "فتح المساعد الذكي "}
+        </button>
+      <main className={`relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'col-span-3' : 'col-span-5'}`}>
+        <div>
         <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
           <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
           <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
@@ -446,7 +460,16 @@ export default function ProjectDetailsPage({ projectId, onBack }) {
             })
           )}
         </section>
+        </div>
       </main>
+
+        {isOpenChat && (
+          <div className="col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
+            <GeminiChat/>
+          </div>
+        )}
+
+  </div>
 
       {/* النافذة المنبثقة الخاصة بالإشعارات (الدعوات الواردة) */}
       {showNotificationsModal && (
