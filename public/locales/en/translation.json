@@ -1,9 +1,19 @@
 {
     "SignIn": "Sign In",
     "GetStarted": "Get Started",
+    "Features": "Features",
+    "How It Works": "How It Works",
+    "About": "About",
     "hero":{
         "Eng_Smarter": "Engineering Smarter",
         "BuildBetter": "Build Better",
-        "intro": "The all-in-one platform for engineers to manage projects, collaborate with teams, convert drawings with AI, and deliver professional results to clients."
+        "intro": "The all-in-one platform for engineers to manage projects, collaborate with teams, convert drawings with AI, and deliver professional results to clients.",
+        "Engineers": "Engineers",
+        "ProjCom": "Projects Completed",
+        "ClientSat": "Client Satisfaction",
+        "EngSpe": "Engineering Specialties",
+        "Smart_Eng_Plat": "Smart Engineering Platform",
+        "GetSta": "Get Started Free",
+        "SeeFeatures": "See Features"
     }
 }

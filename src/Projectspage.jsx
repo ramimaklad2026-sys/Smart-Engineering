@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
-import ProjectDetailsPage from "./Projectdetailspage"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
+import ProjectDetailsPage from "./ProjectDetailsPage"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
+import { Link } from "react-router";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -56,15 +57,14 @@ function ProjectCard({ project, onView, onDelete }) {
         </span>
         
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => onView(projectId)} // 👈 نمرر الـ ID مباشرة لتشغيل السيرفر
+          <Link to={`/projects/${projectId}`}
             className="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1"
           >
             View
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </Link>
 
           <button
             onClick={() => onDelete(projectId)}

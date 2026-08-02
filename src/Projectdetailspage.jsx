@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GeminiChat from "./GeminiChat";
+import { Link, useParams } from "react-router";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -13,11 +14,12 @@ const STATUS_CONFIG = {
   ACTIVE: { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
 };
 
-export default function ProjectDetailsPage({ projectId, onBack }) {
+export default function ProjectDetailsPage() {
   const [project, setProject] = useState(null);
   const [blueprints, setBlueprints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpenChat, setIsOpenChat] = useState(false);
+  const { projectId} =useParams();
 
   // إشعارات الباك إند
   const [invitations, setInvitations] = useState([]);
@@ -360,7 +362,7 @@ export default function ProjectDetailsPage({ projectId, onBack }) {
       <header className="bg-[#0b0f19] border-b border-gray-900 sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="text-xs text-gray-400 hover:text-white bg-gray-900 px-3 py-1.5 rounded border border-gray-800">← عودة</button>
+            <Link to="/projects" className="text-xs text-gray-400 hover:text-white bg-gray-900 px-3 py-1.5 rounded border border-gray-800">← عودة</Link>
             <h1 className="text-base font-bold text-white">{project?.title}</h1>
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}>{project?.status || "Pending"}</span>
           </div>
