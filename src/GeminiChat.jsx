@@ -7,7 +7,7 @@ const GeminiChat = () => {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
+  const genAI = new GoogleGenerativeAI('AQ.Ab8RN6J_zbPH4QGcfPyVbuOFbkpzPe-LR9cPaE6aIDpCV4uSxw');
 
   // التمرير التلقائي لأسفل المحادثة عند إضافة رسالة جديدة
   const scrollToBottom = () => {
@@ -62,7 +62,6 @@ const GeminiChat = () => {
         </div>
       </header>
 
-      {/* منطقة عرض الرسائل */}
       <main className="flex-1 overflow-y-auto p-4 sm:p-6">
         <div className="max-w-4xl mx-auto space-y-6">
           {messages.length === 0 && (

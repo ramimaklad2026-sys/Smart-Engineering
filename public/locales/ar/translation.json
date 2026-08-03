@@ -42,60 +42,128 @@
         "default_error": "فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد الخاصة بك."
     },
     "register": {
-  "join_the": "انضم إلى",
-  "engineering": "مجتمع",
-  "community": "المهندسين",
-  "description": "تواصل مع المهندسين، أدر المشاريع، واستخدم أدوات مدعومة بالذكاء الاصطناعي — كل ذلك من منصة واحدة.",
-  "step1_title": "أنشئ حسابك",
-  "step1_desc": "أدخل بياناتك أدناه",
-  "step2_title": "قم بإعداد ملفك الشخصي",
-  "step2_desc": "أضف مهاراتك وخبراتك",
-  "step3_title": "ابدأ التعاون",
-  "step3_desc": "انضم إلى المشاريع والفرق",
-  "copyright": "© 2026 BuildSphere. جميع الحقوق محفوظة.",
-  "create_account_title": "أنشئ حسابك",
-  "create_account_subtitle": "انضم إلى آلاف المهندسين على المنصة",
-  "full_name_label": "الاسم الكامل",
-  "full_name_placeholder": "أحمد الرشيدي",
-  "email_label": "البريد الإلكتروني",
-  "email_placeholder": "engineer@company.com",
-  "specialty_label": "التخصص الهندسي",
-  "specialty_placeholder": "اختر تخصصك...",
-  "password_label": "كلمة المرور",
-  "password_placeholder": "الحد الأدنى 8 أحرف",
-  "confirm_password_label": "تأكيد كلمة المرور",
-  "confirm_password_placeholder": "أعد إدخال كلمة المرور",
-  "strength_weak": "ضعيفة",
-  "strength_fair": "مقبولة",
-  "strength_good": "جيدة",
-  "strength_strong": "قوية",
-  "password_strength": "قوة كلمة المرور:",
-  "passwords_no_match": "كلمتا المرور غير متطابقتين",
-  "passwords_match": "✓ كلمتا المرور متطابقتان",
-  "agree_to": "أوافق على",
-  "terms": "شروط الخدمة",
-  "and": "و",
-  "privacy_policy": "سياسة الخصوصية",
-  "creating_account": "جاري إنشاء الحساب...",
-  "create_account_btn": "إنشاء حساب",
-  "already_have_account": "لديك حساب بالفعل؟",
-  "sign_in": "تسجيل الدخول",
-  "err_full_name": "يرجى إدخال اسمك الكامل.",
-  "err_email": "يرجى إدخال بريدك الإلكتروني.",
-  "err_valid_email": "يرجى إدخال بريد إلكتروني صحيح.",
-  "err_specialty": "يرجى اختيار تخصصك الهندسي.",
-  "err_password_len": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
-  "err_password_match": "كلمتا المرور غير متطابقتين.",
-  "err_reg_failed": "فشل التسجيل. يرجى المحاولة مرة أخرى.",
-  "spec_civil": "الهندسة المدنية",
-  "spec_structural": "الهندسة الإنشائية",
-  "spec_mechanical": "الهندسة الميكانيكية",
-  "spec_electrical": "الهندسة الكهربائية",
-  "spec_software": "هندسة البرمجيات",
-  "spec_architectural": "الهندسة المعمارية",
-  "spec_environmental": "الهندسة البيئية",
-  "spec_industrial": "الهندسة الصناعية",
-  "spec_chemical": "الهندسة الكيميائية",
-  "spec_other": "أخرى"
-}
+        "join_the": "انضم إلى",
+        "engineering": "مجتمع",
+        "community": "المهندسين",
+        "description": "تواصل مع المهندسين، أدر المشاريع، واستخدم أدوات مدعومة بالذكاء الاصطناعي — كل ذلك من منصة واحدة.",
+        "step1_title": "أنشئ حسابك",
+        "step1_desc": "أدخل بياناتك أدناه",
+        "step2_title": "قم بإعداد ملفك الشخصي",
+        "step2_desc": "أضف مهاراتك وخبراتك",
+        "step3_title": "ابدأ التعاون",
+        "step3_desc": "انضم إلى المشاريع والفرق",
+        "copyright": "© 2026 BuildSphere. جميع الحقوق محفوظة.",
+        "create_account_title": "أنشئ حسابك",
+        "create_account_subtitle": "انضم إلى آلاف المهندسين على المنصة",
+        "full_name_label": "الاسم الكامل",
+        "full_name_placeholder": "أحمد الرشيدي",
+        "email_label": "البريد الإلكتروني",
+        "email_placeholder": "engineer@company.com",
+        "specialty_label": "التخصص الهندسي",
+        "specialty_placeholder": "اختر تخصصك...",
+        "password_label": "كلمة المرور",
+        "password_placeholder": "الحد الأدنى 8 أحرف",
+        "confirm_password_label": "تأكيد كلمة المرور",
+        "confirm_password_placeholder": "أعد إدخال كلمة المرور",
+        "strength_weak": "ضعيفة",
+        "strength_fair": "مقبولة",
+        "strength_good": "جيدة",
+        "strength_strong": "قوية",
+        "password_strength": "قوة كلمة المرور:",
+        "passwords_no_match": "كلمتا المرور غير متطابقتين",
+        "passwords_match": "✓ كلمتا المرور متطابقتان",
+        "agree_to": "أوافق على",
+        "terms": "شروط الخدمة",
+        "and": "و",
+        "privacy_policy": "سياسة الخصوصية",
+        "creating_account": "جاري إنشاء الحساب...",
+        "create_account_btn": "إنشاء حساب",
+        "already_have_account": "لديك حساب بالفعل؟",
+        "sign_in": "تسجيل الدخول",
+        "err_full_name": "يرجى إدخال اسمك الكامل.",
+        "err_email": "يرجى إدخال بريدك الإلكتروني.",
+        "err_valid_email": "يرجى إدخال بريد إلكتروني صحيح.",
+        "err_specialty": "يرجى اختيار تخصصك الهندسي.",
+        "err_password_len": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+        "err_password_match": "كلمتا المرور غير متطابقتين.",
+        "err_reg_failed": "فشل التسجيل. يرجى المحاولة مرة أخرى.",
+        "spec_civil": "الهندسة المدنية",
+        "spec_structural": "الهندسة الإنشائية",
+        "spec_mechanical": "الهندسة الميكانيكية",
+        "spec_electrical": "الهندسة الكهربائية",
+        "spec_software": "هندسة البرمجيات",
+        "spec_architectural": "الهندسة المعمارية",
+        "spec_environmental": "الهندسة البيئية",
+        "spec_industrial": "الهندسة الصناعية",
+        "spec_chemical": "الهندسة الكيميائية",
+        "spec_other": "أخرى"
+    },
+    "footer": {
+        "brand": "BuildSphere",
+        "copyright": "© 2026 BuildSphere. منصة الهندسة الذكية. جميع الحقوق محفوظة.",
+        "privacy": "الخصوصية",
+        "terms": "الشروط",
+        "contact": "تواصل معنا"
+    },
+    "cta": {
+        "titleLine1": "هل أنت مستعد لتغيير طريقة",
+        "titleLine2": "عمل فريقك الهندسي؟",
+        "description": "انضم إلى المئات من المهندسين الذين يستخدمون BuildSphere لتقديم مشاريع أفضل وأسرع.",
+        "createAccount": "إنشاء حساب مجاني",
+        "signIn": "تسجيل الدخول"
+    },
+    "howItWorks": {
+        "subtitle": "كيفية العمل",
+        "title": "جاهز للعمل في دقائق",
+        "description": "لا توجد إعدادات معقدة. لا يوجد منحنى تعلم صعب. اجعل فريقك ينضم ويبدأ العمل بسرعة.",
+        "steps": {
+            "step1": {
+                "title": "أنشئ حسابك",
+                "desc": "سجل بتخصصك الهندسي وقم بإعداد ملفك المهني في دقائق."
+            },
+            "step2": {
+                "title": "ابدأ أو انضم لمشروع",
+                "desc": "أنشئ مشروعاً هندسياً جديداً أو تلقَّ دعوة للانضمام إلى فريق حالي من مؤسستك."
+            },
+            "step3": {
+                "title": "تعاون وابنِ",
+                "desc": "استخدم مجموعة الأدوات الكاملة — تحويل الرسومات بالذكاء الاصطناعي، مراجعات العملاء، والتعاون مع الفريق."
+            },
+            "step4": {
+                "title": "سلّم مشروعك بثقة",
+                "desc": "تابع التقدم، التزم بالمواعيد النهائية، وشارك نتائج احترافية مع العملاء وأصحاب المصلحة."
+            }
+        }
+    },
+    "features": {
+        "subtitle": "ميزات المنصة",
+        "title": "كل ما يحتاجه المهندسون",
+        "description": "من انطلاق المشروع وحتى تسليمه للعميل — توفر BuildSphere الأدوات التي يحتاجها فريقك للعمل بكفاءة.",
+        "list": {
+            "projectManagement": {
+                "title": "إدارة المشاريع",
+                "desc": "نظّم المشاريع الهندسية من الفكرة إلى التسليم. تتبع المراحل، المواعيد النهائية، وتقدم الفريق في الوقت الفعلي."
+            },
+            "teamCollaboration": {
+                "title": "تعاون الفريق",
+                "desc": "اعمل بسلاسة مع فريقك الهندسي. شارك الملفات، اترك التعليقات، وابقَ على اطلاع بكل مشروع."
+            },
+            "aiTool": {
+                "title": "أداة تحويل 2D إلى 3D بالذكاء الاصطناعي",
+                "desc": "ارفع رسماً معمارياً أو هندسياً ثنائي الأبعاد ودع الذكاء الاصطناعي يحوله إلى نموذج ثلاثي الأبعاد مفصل في ثوانٍ."
+            },
+            "clientReview": {
+                "title": "صفحة مراجعة العميل",
+                "desc": "شارك تقدم المشروع مع العملاء عبر بوابة مراجعة مبسطة. اجمع الملاحظات والموافقات بدون تبادل رسائل بريد إلكتروني."
+            },
+            "engineerProfile": {
+                "title": "ملف المهندس",
+                "desc": "اعرض مهاراتك، شهاداتك، ومشاريعك المكتملة. ابنِ معرض أعمال احترافي يجذب الانتباه."
+            },
+            "smartDashboard": {
+                "title": "لوحة تحكم ذكية",
+                "desc": "احصل على نظرة شاملة لجميع مشاريعك، مهامك، ونشاط فريقك. اتخذ قرارات مدروسة مع تحليلات مباشرة."
+            }
+        }
+    }
 }

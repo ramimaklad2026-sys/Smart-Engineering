@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 export default function CTA({ onNavigate, useInView }) {
+  const { t } = useTranslation();
   const [ref, inView] = useInView();
 
   return (
@@ -10,23 +13,23 @@ export default function CTA({ onNavigate, useInView }) {
             }`}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Ready to transform how<br />your team engineers?
+            {t('cta.titleLine1')}<br />{t('cta.titleLine2')}
           </h2>
           <p className="text-gray-400 mb-8 max-w-lg mx-auto">
-            Join hundreds of engineers already using BuildSphere to deliver better projects, faster.
+            {t('cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => onNavigate("register")}
               className="w-full sm:w-auto bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3.5 rounded-lg transition-all hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25"
             >
-              Create Free Account
+              {t('cta.createAccount')}
             </button>
             <button
               onClick={() => onNavigate("login")}
               className="w-full sm:w-auto text-gray-300 hover:text-white border border-gray-700 hover:border-gray-500 px-8 py-3.5 rounded-lg transition-all"
             >
-              Sign In
+              {t('cta.signIn')}
             </button>
           </div>
         </div>

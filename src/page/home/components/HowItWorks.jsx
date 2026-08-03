@@ -1,27 +1,29 @@
-
-
-const STEPS = [
-  { number: "01", title: "Create Your Account", desc: "Sign up with your engineering specialty and set up your professional profile in minutes." },
-  { number: "02", title: "Start or Join a Project", desc: "Create a new engineering project or get invited to an existing team by your organization." },
-  { number: "03", title: "Collaborate & Build", desc: "Use the full suite of tools — AI drawing conversion, client reviews, and team collaboration." },
-  { number: "04", title: "Deliver with Confidence", desc: "Track progress, meet deadlines, and share polished results with clients and stakeholders." },
-];
-
+import { useTranslation } from 'react-i18next';
 
 export default function HowItWorks({ useInView }) {
+  const { t } = useTranslation();
   const [ref, inView] = useInView();
+
+  const STEPS = [
+    { number: "01", title: t('howItWorks.steps.step1.title'), desc: t('howItWorks.steps.step1.desc') },
+    { number: "02", title: t('howItWorks.steps.step2.title'), desc: t('howItWorks.steps.step2.desc') },
+    { number: "03", title: t('howItWorks.steps.step3.title'), desc: t('howItWorks.steps.step3.desc') },
+    { number: "04", title: t('howItWorks.steps.step4.title'), desc: t('howItWorks.steps.step4.desc') },
+  ];
 
   return (
     <section id="how-it-works" className="py-24 bg-gray-900/50">
       <div className="max-w-6xl mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-16">
-          <span className="text-blue-400 text-sm font-semibold tracking-widest uppercase">How It Works</span>
+          <span className="text-blue-400 text-sm font-semibold tracking-widest uppercase">
+            {t('howItWorks.subtitle')}
+          </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-3 mb-4">
-            Up and running in minutes
+            {t('howItWorks.title')}
           </h2>
           <p className="text-gray-400 max-w-xl mx-auto">
-            No complex setup. No steep learning curve. Get your team onboarded and working fast.
+            {t('howItWorks.description')}
           </p>
         </div>
 

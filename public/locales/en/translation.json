@@ -97,5 +97,73 @@
         "spec_industrial": "Industrial Engineering",
         "spec_chemical": "Chemical Engineering",
         "spec_other": "Other"
+    },
+    "footer": {
+        "brand": "BuildSphere",
+        "copyright": "© 2026 BuildSphere. Smart Engineering Platform. All rights reserved.",
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "contact": "Contact"
+    },
+    "cta": {
+        "titleLine1": "Ready to transform how",
+        "titleLine2": "your team engineers?",
+        "description": "Join hundreds of engineers already using BuildSphere to deliver better projects, faster.",
+        "createAccount": "Create Free Account",
+        "signIn": "Sign In"
+    },
+    "howItWorks": {
+        "subtitle": "How It Works",
+        "title": "Up and running in minutes",
+        "description": "No complex setup. No steep learning curve. Get your team onboarded and working fast.",
+        "steps": {
+            "step1": {
+                "title": "Create Your Account",
+                "desc": "Sign up with your engineering specialty and set up your professional profile in minutes."
+            },
+            "step2": {
+                "title": "Start or Join a Project",
+                "desc": "Create a new engineering project or get invited to an existing team by your organization."
+            },
+            "step3": {
+                "title": "Collaborate & Build",
+                "desc": "Use the full suite of tools — AI drawing conversion, client reviews, and team collaboration."
+            },
+            "step4": {
+                "title": "Deliver with Confidence",
+                "desc": "Track progress, meet deadlines, and share polished results with clients and stakeholders."
+            }
+        }
+    },
+    "features": {
+        "subtitle": "Platform Features",
+        "title": "Everything engineers need",
+        "description": "From project kickoff to client delivery — BuildSphere has the tools your team needs to work efficiently.",
+        "list": {
+            "projectManagement": {
+                "title": "Project Management",
+                "desc": "Organize engineering projects from concept to delivery. Track milestones, deadlines, and team progress in real time."
+            },
+            "teamCollaboration": {
+                "title": "Team Collaboration",
+                "desc": "Work seamlessly with your engineering team. Share files, leave comments, and stay aligned on every project."
+            },
+            "aiTool": {
+                "title": "AI 2D to 3D Tool",
+                "desc": "Upload a 2D architectural or engineering drawing and let AI transform it into a detailed 3D model instantly."
+            },
+            "clientReview": {
+                "title": "Client Review Page",
+                "desc": "Share project progress with clients through a clean review portal. Collect feedback and approvals without back-and-forth emails."
+            },
+            "engineerProfile": {
+                "title": "Engineer Profile",
+                "desc": "Showcase your skills, certifications, and completed projects. Build a professional portfolio that gets noticed."
+            },
+            "smartDashboard": {
+                "title": "Smart Dashboard",
+                "desc": "Get a bird's-eye view of all your projects, tasks, and team activity. Make informed decisions with live analytics."
+            }
+        }
     }
 }
