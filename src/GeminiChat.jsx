@@ -3,11 +3,11 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const GeminiChat = () => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]); // مصفوفة لحفظ سجل المحادثة
+  const [messages, setMessages] = useState([]);    
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const genAI = new GoogleGenerativeAI('AQ.Ab8RN6J_zbPH4QGcfPyVbuOFbkpzPe-LR9cPaE6aIDpCV4uSxw');
+  const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
   // التمرير التلقائي لأسفل المحادثة عند إضافة رسالة جديدة
   const scrollToBottom = () => {
