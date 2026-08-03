@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Navbar from "./page/home/components/Navbar"
+import Navbar from "../home/components/Navbar";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 

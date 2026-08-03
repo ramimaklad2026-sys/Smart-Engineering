@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
 import ProjectDetailsPage from "./Projectdetails.jsx"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
 import { Link } from "react-router-dom";
+import { UserRound } from "lucide-react";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -55,7 +56,7 @@ function ProjectCard({ project, onView, onDelete }) {
         <span className="text-xs text-gray-500">
           ID: {projectId ? `${projectId.substring(0, 8)}...` : "Unknown"}
         </span>
-        
+
         <div className="flex items-center gap-3">
           <Link to={`/projects/${projectId}`}
             className="text-xs text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1"
@@ -96,7 +97,7 @@ function CreateProjectModal({ onClose, onCreate }) {
 
     try {
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
-      
+
       const response = await axios.post(
         `${API_BASE_URL}/api/projects`,
         { title, description },
@@ -183,15 +184,14 @@ function CreateProjectModal({ onClose, onCreate }) {
 }
 
 export default function ProjectsPage({ onNavigate }) {
-  const [projects, setProjects] = useState([]); 
+  const [projects, setProjects] = useState([]);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [showModal, setShowModal] = useState(false);
   const [loadingPage, setLoadingPage] = useState(true);
   const [pageError, setPageError] = useState("");
-  const [retryCount, setRetryCount] = useState(0); 
+  const [retryCount, setRetryCount] = useState(0);
 
-  // حالة لتخزين الـ ID الخاص بالمشروع المراد فتح تفاصيله
   const [activeProjectId, setActiveProjectId] = useState(null);
 
   const fetchProjects = async () => {
@@ -199,7 +199,7 @@ export default function ProjectsPage({ onNavigate }) {
       setLoadingPage(true);
       setPageError("");
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
-      
+
       if (!token || token === "undefined" || token === "null") {
         throw new Error("No valid token found. Please log in again.");
       }
@@ -215,7 +215,7 @@ export default function ProjectsPage({ onNavigate }) {
       } else if (response.data && Array.isArray(response.data.projects)) {
         setProjects(response.data.projects);
       } else {
-        setProjects([]); 
+        setProjects([]);
       }
     } catch (err) {
       console.error("Fetch projects error:", err);
@@ -224,7 +224,7 @@ export default function ProjectsPage({ onNavigate }) {
       setLoadingPage(false);
     }
   };
-  
+
   useEffect(() => {
     let checkTimer;
     let fetchTimer;
@@ -252,7 +252,7 @@ export default function ProjectsPage({ onNavigate }) {
       completed: projects.filter((p) => p.status === "Completed").length,
       onHold: projects.filter((p) => p.status === "On Hold").length,
     };
-  }, [projects]); 
+  }, [projects]);
 
   const filtered = useMemo(() => {
     return projects.filter((p) => {
@@ -291,15 +291,7 @@ export default function ProjectsPage({ onNavigate }) {
     );
   }
 
-  // ── التبديل الذكي: عند وجود ID مفعّل، يتم عرض صفحة التفاصيل الاحترافية فوراً وعمل المزامنة ──
-  if (activeProjectId) {
-    return (
-      <ProjectDetailsPage 
-        projectId={activeProjectId} 
-        onBack={() => setActiveProjectId(null)} 
-      />
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -320,7 +312,7 @@ export default function ProjectsPage({ onNavigate }) {
 
           <div className="flex items-center gap-3">
             {onNavigate && (
-              <button 
+              <button
                 onClick={() => { localStorage.clear(); onNavigate("landing"); }}
                 className="text-xs text-gray-400 hover:text-white border border-gray-800 px-3 py-2 rounded-lg transition-colors"
               >
@@ -333,6 +325,14 @@ export default function ProjectsPage({ onNavigate }) {
             >
               New Project
             </button>
+            <Link to="/profile">
+              <div className="relative shrink-0">
+                <div className="w-13 h-13 grid place-items-center overflow-hidden border-[5px] border-[#101a2d] rounded-3xl text-[#93c5fd] bg-gradient-to-br from-[#1e3a8a] to-[#172554] shadow-[0_15px_35px_rgba(0,0,0,0.35)]">
+                  <UserRound size={25} />
+                </div>
+                <span className="absolute -right-[1px] bottom-[9px] w-[20px] h-[20px] border-[4px] border-[#101a2d] rounded-full bg-[#22c55e]" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -380,9 +380,9 @@ export default function ProjectsPage({ onNavigate }) {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
             {filtered.map((project, index) => (
-              <ProjectCard 
-                key={project._id || project.id || index} 
-                project={project} 
+              <ProjectCard
+                key={project._id || project.id || index}
+                project={project}
                 onView={(id) => setActiveProjectId(id)} // 👈 تفعيل الانتقال الحقيقي بالـ ID
                 onDelete={handleDeleteProject}
               />

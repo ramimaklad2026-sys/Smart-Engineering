@@ -1,10 +1,11 @@
 import LandingPage from "./page/home/Landingpage";
 import LoginPage from "./page/log-sign-in/LoginPage";
-import RegisterPage from "./Registerpage";
+import RegisterPage from "./page/log-sign-in/Registerpage";
 import ProjectsPage from "./Projectspage"; 
 import Projectdetails from "./Projectdetails";
 import GeminiChat from "./GeminiChat";
 import { Routes, Route } from "react-router-dom";
+import Profile from "./profile";
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/projects/:projectId" element={<Projectdetails />} />
+      <Route path="/profile" element={<Profile/>}/>
       <Route path="/gemini" element={<GeminiChat />} />
     </Routes>
   )

@@ -165,5 +165,21 @@
                 "desc": "Get a bird's-eye view of all your projects, tasks, and team activity. Make informed decisions with live analytics."
             }
         }
+    },
+    "pro":{
+        "Load_pro": "Loading profile",
+        "pless":"Please wait while your profile is being loaded.",
+        "TryAgain":"Try Again",
+        "VerifiedUser":"Verified User",
+        "BuildSpheremember":"BuildSphere member",
+        "EditProfile":"Edit Profile",
+        "AccountInformation":"Account Information",
+        "personalAndAccount":"Personal and Account Information",
+        "RecentProjects":"Recent Projects",
+        "ProjectsOwned":"Projects owned by this account",
+        "NoProjectsYet":"No projects yet",
+        "YourCreatedProjects":"Your created projects will appear here.",
+        "CreateProject":"Create Project",
+        "ViewAll":"View All"
     }
 }

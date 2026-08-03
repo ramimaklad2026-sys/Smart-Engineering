@@ -165,5 +165,21 @@
                 "desc": "احصل على نظرة شاملة لجميع مشاريعك، مهامك، ونشاط فريقك. اتخذ قرارات مدروسة مع تحليلات مباشرة."
             }
         }
+    },
+    "pro": {
+        "Load_pro": "جارٍ تحميل الملف الشخصي",
+        "pless":"lرجاء الانتظار أثناء تحميل ملفك الشخصي.",
+        "TryAgain":"حاول مرة أخرى",
+        "VerifiedUser":"مستخدم موثوق",
+        "BuildSpheremember":"عضو في BuildSphere",
+        "EditProfile":"تعديل الملف الشخصي",
+        "AccountInformation":"معلومات الحساب",
+        "personalAndAccount":"معلومات شخصية وحسابية",
+        "RecentProjects":"المشاريع الأخيرة",
+        "ProjectsOwned":"المشاريع المملوكة لهذا الحساب",
+        "NoProjectsYet":"لا توجد مشاريع بعد",
+        "YourCreatedProjects":"ستظهر مشاريعك التي أنشأتها هنا.",
+        "CreateProject":"إنشاء مشروع",
+        "ViewAll":"عرض الكل"
     }
 }
