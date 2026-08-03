@@ -24,7 +24,7 @@ import { useTranslation } from "react-i18next";
 const API_URL = "https://buildsphere-backend.onrender.com";
 
 function Profile() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const fileInputRef = useRef(null);
 
@@ -41,6 +41,17 @@ function Profile() {
     const [avatarPreview, setAvatarPreview] = useState("");
 
     const token = localStorage.getItem("token");
+
+    const changeLanguage = () => {
+    const newLanguage = i18n.language === "en" ? "ar" : "en";
+
+    i18n.changeLanguage(newLanguage);
+
+    document.documentElement.dir =
+      newLanguage === "ar" ? "rtl" : "ltr";
+
+    document.documentElement.lang = newLanguage;
+  };
 
     const getImageUrl = (avatar) => {
         if (!avatar) return "";
@@ -273,6 +284,12 @@ function Profile() {
                     </a>
 
                     <div className="flex items-center gap-3">
+                        <button
+            onClick={changeLanguage}
+            className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
+          >
+            {i18n.language === 'en' ? 'العربية' : 'English'}
+          </button>
                         <a href="/projects" className={`${btnBase} min-h-10 px-5 text-gray-200 border border-[#334155] bg-[#111c2f]`}>
                             <ArrowLeft size={18} />
                             Back to Projects
