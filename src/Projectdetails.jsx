@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import GeminiChat from "./GeminiChat";
 import { Link, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -19,7 +20,19 @@ export default function Projectdetails() {
   const [blueprints, setBlueprints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpenChat, setIsOpenChat] = useState(false);
-  const { projectId} =useParams();
+  const { projectId } = useParams();
+  const { t, i18n } = useTranslation();
+
+const changeLanguage = () => {
+    const newLanguage = i18n.language === "en" ? "ar" : "en";
+
+    i18n.changeLanguage(newLanguage);
+
+    document.documentElement.dir =
+      newLanguage === "ar" ? "rtl" : "ltr";
+
+    document.documentElement.lang = newLanguage;
+  };
 
   // إشعارات الباك إند
   const [invitations, setInvitations] = useState([]);
@@ -53,7 +66,7 @@ export default function Projectdetails() {
   const [noteInputs, setNoteInputs] = useState({});
   const [actionLoading, setActionLoading] = useState(false);
 
-  
+
   const fetchInvitations = async () => {
     try {
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
@@ -68,24 +81,24 @@ export default function Projectdetails() {
     }
   };
 
-  
+
   const handleInvitationAction = async (invitationId, actionType) => {
     try {
       setActionLoading(true);
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
-      
-      
+
+
       const payload = {
         invitationId: invitationId,
-        action: actionType.toUpperCase() 
+        action: actionType.toUpperCase()
       };
 
-      
+
       await axios.post(
-        `${API_BASE_URL}/api/collaborations/respond`, 
+        `${API_BASE_URL}/api/collaborations/respond`,
         payload,
         {
-          headers: { 
+          headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
           },
@@ -93,8 +106,8 @@ export default function Projectdetails() {
       );
 
       alert(`تم ${actionType === "ACCEPTED" ? "قبول" : "رفض"} الدعوة بنجاح.`);
-      
-      
+
+
       await fetchInvitations();
       if (actionType === "ACCEPTED") {
         refreshData();
@@ -107,7 +120,7 @@ export default function Projectdetails() {
       setActionLoading(false);
     }
   };
-  
+
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
@@ -126,7 +139,7 @@ export default function Projectdetails() {
             setEditStatus(projectData.status || "ACTIVE");
           }
         }
-        
+
         // جلب الإشعارات بالتزامن مع تفاصيل المشروع
         await fetchInvitations();
 
@@ -203,12 +216,12 @@ export default function Projectdetails() {
     try {
       setActionLoading(true);
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
-      
+
       const formData = new FormData();
       formData.append("title", bpTitle.trim());
       formData.append("description", bpDescription.trim() || "No description");
       formData.append("projectId", projectId);
-      
+
       bpFiles.forEach((file) => {
         const fileExtension = file.name.split('.').pop();
         const safeName = `blueprint_${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExtension}`;
@@ -251,7 +264,7 @@ export default function Projectdetails() {
     try {
       setActionLoading(true);
       const token = localStorage.getItem("token") || localStorage.getItem("authToken");
-      
+
       const textData = { title: editBpTitle.trim(), description: editBpDescription.trim() };
       await axios.patch(`${API_BASE_URL}/api/blueprints/${selectedBlueprintId}`, textData, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
@@ -261,7 +274,7 @@ export default function Projectdetails() {
       imageFormData.append("title", editBpTitle.trim());
       imageFormData.append("description", editBpDescription.trim() || "Added during edit");
       imageFormData.append("projectId", projectId);
-      
+
       editBpFiles.forEach((file) => {
         const fileExtension = file.name.split('.').pop();
         const safeName = `edit_blueprint_${Date.now()}_${Math.floor(Math.random() * 1000)}.${fileExtension}`;
@@ -350,9 +363,9 @@ export default function Projectdetails() {
   const inputClass = "w-full bg-[#0d1321] border border-gray-800 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-blue-500 text-right font-sans";
 
   const handleOpenChat = () => {
-    if(!isOpenChat) {
+    if (!isOpenChat) {
       setIsOpenChat(true);
-    }else{
+    } else {
       setIsOpenChat(false);
     }
   }
@@ -367,9 +380,8 @@ export default function Projectdetails() {
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}>{project?.status || "Pending"}</span>
           </div>
           <div className="flex items-center gap-2">
-            {/* زر الإشعارات المضاف بشكل احترافي مع عدّاد أحمر ديناميكي */}
-            <button 
-              onClick={() => setShowNotificationsModal(true)} 
+            <button
+              onClick={() => setShowNotificationsModal(true)}
               className="relative bg-gray-900 border border-gray-800 hover:bg-gray-800 text-gray-300 p-2 rounded text-xs font-bold shadow-md flex items-center justify-center gap-1.5"
               title="الإشعارات والدعوات الواردة"
             >
@@ -380,98 +392,105 @@ export default function Projectdetails() {
                 </span>
               )}
             </button>
+           
 
             <button onClick={() => setShowInviteModal(true)} className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md">📩 دعوة انضمام</button>
             <button onClick={() => setShowBlueprintModal(true)} className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-xs font-bold">📐 إضافة مخطط جديد</button>
             <button onClick={() => setShowEditModal(true)} className="bg-gray-900 border border-gray-800 px-3 py-2 rounded text-xs text-gray-300 hover:bg-gray-800">تعديل المشروع</button>
+             <button
+            onClick={changeLanguage}
+            className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
+          >
+            {i18n.language === 'en' ? 'العربية' : 'English'}
+          </button>
           </div>
         </div>
       </header>
-  <div className="grid grid-cols-5 gap-6 w-full">
-        <button onClick={handleOpenChat} className={`fixed top-20 left-2 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md mb-4 z-50 ${isOpenChat ? 'bg-red-600 hover:bg-red-500' : '' }`}>
+      <div className="grid grid-cols-5 gap-6 w-full">
+        <button onClick={handleOpenChat} className={`fixed top-20 left-2 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md mb-4 z-50 ${isOpenChat ? 'bg-red-600 hover:bg-red-500' : ''}`}>
           {isOpenChat ? "إغلاق المساعد الذكي " : "فتح المساعد الذكي "}
         </button>
-      <main className={`relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'col-span-3' : 'col-span-5'}`}>
-        <div>
-        <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
-          <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
-          <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
-        </section>
+        <main className={`relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'col-span-3' : 'col-span-5'}`}>
+          <div>
+            <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
+              <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
+              <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
+            </section>
 
-        <section className="space-y-8">
-          <h2 className="text-sm font-bold text-white border-r-2 border-blue-500 pr-2">المخططات واللوحات الهندسية الحالية</h2>
-          {blueprints.length === 0 ? (
-            <div className="text-center py-20 bg-[#0b0f19] border border-dashed border-gray-900 rounded-xl text-gray-500 text-sm">لم يتم رفع أي مخططات هندسية بعد لهذا المشروع الهيكلي.</div>
-          ) : (
-            blueprints.map((bp) => {
-              const targetImage = bp.images && bp.images.length > 0 ? bp.images[bp.images.length - 1] : null;
-              let finalImgUrl = "";
-              if (targetImage && targetImage.imageUrl) {
-                const cleanPath = targetImage.imageUrl.replace(/^\//, "");
-                finalImgUrl = cleanPath.startsWith("http") ? cleanPath : `${API_BASE_URL}/${cleanPath}`;
-              }
+            <section className="space-y-8">
+              <h2 className="text-sm font-bold text-white border-r-2 border-blue-500 pr-2">المخططات واللوحات الهندسية الحالية</h2>
+              {blueprints.length === 0 ? (
+                <div className="text-center py-20 bg-[#0b0f19] border border-dashed border-gray-900 rounded-xl text-gray-500 text-sm">لم يتم رفع أي مخططات هندسية بعد لهذا المشروع الهيكلي.</div>
+              ) : (
+                blueprints.map((bp) => {
+                  const targetImage = bp.images && bp.images.length > 0 ? bp.images[bp.images.length - 1] : null;
+                  let finalImgUrl = "";
+                  if (targetImage && targetImage.imageUrl) {
+                    const cleanPath = targetImage.imageUrl.replace(/^\//, "");
+                    finalImgUrl = cleanPath.startsWith("http") ? cleanPath : `${API_BASE_URL}/${cleanPath}`;
+                  }
 
-              return (
-                <div key={bp._id} className="bg-[#0b0f19] border border-gray-900 rounded-xl overflow-hidden p-6 space-y-5 shadow-2xl">
-                  <div className="flex justify-between items-start border-b border-gray-900/60 pb-3">
-                    <div className="space-y-1">
-                      <h4 className="text-base font-bold text-white">{bp.title}</h4>
-                      {bp.description && <p className="text-xs text-gray-400 font-normal">{bp.description}</p>}
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <button onClick={() => openEditBlueprintModal(bp)} className="text-xs text-gray-300 hover:text-blue-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">تعديل وإضافة صورة</button>
-                      <button onClick={() => handleDeleteBlueprint(bp._id)} className="text-xs text-gray-500 hover:text-red-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">حذف</button>
-                    </div>
-                  </div>
-
-                  <div className="w-full bg-[#070a13] rounded-lg border border-gray-900 overflow-hidden flex items-center justify-center p-3 min-h-[350px]">
-                    {finalImgUrl ? (
-                      <img src={finalImgUrl} className="max-w-full h-auto max-h-[550px] object-contain rounded-md" alt={bp.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = `https://placehold.co/800x450/0d1321/38bdf8?text=${encodeURIComponent(bp.title || 'Blueprint')}`; }} />
-                    ) : (
-                      <div className="text-center text-gray-600 text-xs"><p>لا توجد صورة مرتبطة حالياً بالمخطط الإنشائي.</p></div>
-                    )}
-                  </div>
-
-                  {targetImage && (
-                    <div className="bg-[#070a13] p-2 border border-gray-900 rounded-lg max-w-xl mr-auto flex gap-2 items-center shadow-inner">
-                      <input type="text" placeholder="أدخل ملاحظة هندسية دقيقة حول المخطط..." value={noteInputs[bp._id] || ""} onChange={(e) => setNoteInputs(prev => ({ ...prev, [bp._id]: e.target.value }))} onKeyDown={(e) => { if (e.key === 'Enter') handleAddNote(bp._id, targetImage._id); }} className="flex-1 bg-transparent text-white px-3 py-1.5 text-xs focus:outline-none text-right" />
-                      <button onClick={() => handleAddNote(bp._id, targetImage._id)} disabled={!noteInputs[bp._id]?.trim()} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white px-4 py-2 rounded text-xs font-bold whitespace-nowrap">إضافة ملاحظة</button>
-                    </div>
-                  )}
-
-                  <div className="space-y-3 pt-3 border-t border-gray-900/40">
-                    <span className="text-xs font-bold text-gray-400">📌 التوجيهات وملاحظات لجنة الإشراف المشتركة:</span>
-                    {targetImage?.notes && targetImage.notes.length > 0 ? (
-                      <div className="space-y-2">
-                        {targetImage.notes.map((note, index) => (
-                          <div key={note._id || index} className="bg-[#0d1321] border border-gray-900 p-3 rounded-lg flex justify-between items-start gap-4">
-                            <div className="space-y-1">
-                              <span className="text-[11px] text-gray-500 font-bold">لجنة التدقيق الهندسي</span>
-                              <p className="text-gray-300 text-xs whitespace-pre-line">{note.text}</p>
-                            </div>
-                            <button onClick={() => handleDeleteNote(bp._id, targetImage._id, note._id)} className="text-gray-600 hover:text-red-400 p-1 text-xs">🗑️</button>
-                          </div>
-                        ))}
+                  return (
+                    <div key={bp._id} className="bg-[#0b0f19] border border-gray-900 rounded-xl overflow-hidden p-6 space-y-5 shadow-2xl">
+                      <div className="flex justify-between items-start border-b border-gray-900/60 pb-3">
+                        <div className="space-y-1">
+                          <h4 className="text-base font-bold text-white">{bp.title}</h4>
+                          {bp.description && <p className="text-xs text-gray-400 font-normal">{bp.description}</p>}
+                        </div>
+                        <div className="flex items-center gap-1.5">
+                          <button onClick={() => openEditBlueprintModal(bp)} className="text-xs text-gray-300 hover:text-blue-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">تعديل وإضافة صورة</button>
+                          <button onClick={() => handleDeleteBlueprint(bp._id)} className="text-xs text-gray-500 hover:text-red-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">حذف</button>
+                        </div>
                       </div>
-                    ) : (
-                      <p className="text-gray-600 text-xs italic bg-[#070a13]/30 p-4 rounded-lg border border-gray-900/60">لا توجد سجلات ملاحظات فنية معتمدة حالياً.</p>
-                    )}
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </section>
-        </div>
-      </main>
+
+                      <div className="w-full bg-[#070a13] rounded-lg border border-gray-900 overflow-hidden flex items-center justify-center p-3 min-h-[350px]">
+                        {finalImgUrl ? (
+                          <img src={finalImgUrl} className="max-w-full h-auto max-h-[550px] object-contain rounded-md" alt={bp.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = `https://placehold.co/800x450/0d1321/38bdf8?text=${encodeURIComponent(bp.title || 'Blueprint')}`; }} />
+                        ) : (
+                          <div className="text-center text-gray-600 text-xs"><p>لا توجد صورة مرتبطة حالياً بالمخطط الإنشائي.</p></div>
+                        )}
+                      </div>
+
+                      {targetImage && (
+                        <div className="bg-[#070a13] p-2 border border-gray-900 rounded-lg max-w-xl mr-auto flex gap-2 items-center shadow-inner">
+                          <input type="text" placeholder="أدخل ملاحظة هندسية دقيقة حول المخطط..." value={noteInputs[bp._id] || ""} onChange={(e) => setNoteInputs(prev => ({ ...prev, [bp._id]: e.target.value }))} onKeyDown={(e) => { if (e.key === 'Enter') handleAddNote(bp._id, targetImage._id); }} className="flex-1 bg-transparent text-white px-3 py-1.5 text-xs focus:outline-none text-right" />
+                          <button onClick={() => handleAddNote(bp._id, targetImage._id)} disabled={!noteInputs[bp._id]?.trim()} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white px-4 py-2 rounded text-xs font-bold whitespace-nowrap">إضافة ملاحظة</button>
+                        </div>
+                      )}
+
+                      <div className="space-y-3 pt-3 border-t border-gray-900/40">
+                        <span className="text-xs font-bold text-gray-400">📌 التوجيهات وملاحظات لجنة الإشراف المشتركة:</span>
+                        {targetImage?.notes && targetImage.notes.length > 0 ? (
+                          <div className="space-y-2">
+                            {targetImage.notes.map((note, index) => (
+                              <div key={note._id || index} className="bg-[#0d1321] border border-gray-900 p-3 rounded-lg flex justify-between items-start gap-4">
+                                <div className="space-y-1">
+                                  <span className="text-[11px] text-gray-500 font-bold">لجنة التدقيق الهندسي</span>
+                                  <p className="text-gray-300 text-xs whitespace-pre-line">{note.text}</p>
+                                </div>
+                                <button onClick={() => handleDeleteNote(bp._id, targetImage._id, note._id)} className="text-gray-600 hover:text-red-400 p-1 text-xs">🗑️</button>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-gray-600 text-xs italic bg-[#070a13]/30 p-4 rounded-lg border border-gray-900/60">لا توجد سجلات ملاحظات فنية معتمدة حالياً.</p>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </section>
+          </div>
+        </main>
 
         {isOpenChat && (
           <div className="col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
-            <GeminiChat/>
+            <GeminiChat />
           </div>
         )}
 
-  </div>
+      </div>
 
       {/* النافذة المنبثقة الخاصة بالإشعارات (الدعوات الواردة) */}
       {showNotificationsModal && (
@@ -481,7 +500,7 @@ export default function Projectdetails() {
               <h3 className="text-sm font-bold text-white flex items-center gap-2">🔔 مركز الإشعارات والدعوات الواردة</h3>
               <button onClick={() => setShowNotificationsModal(false)} className="text-gray-500 hover:text-white text-xs bg-gray-900 px-2 py-1 rounded border border-gray-800">إغلاق</button>
             </div>
-            
+
             <div className="max-h-[350px] overflow-y-auto space-y-3 pr-1">
               {invitations.length === 0 ? (
                 <p className="text-center text-gray-500 text-xs py-8">لا يوجد لديك أي دعوات معلقة أو إشعارات جديدة حالياً.</p>
@@ -496,18 +515,18 @@ export default function Projectdetails() {
                     <p className="text-xs text-gray-400 font-mono bg-[#070a13] p-1.5 rounded border border-gray-900/40 select-all">
                       {inv.senderId?.email || "إيميل المرسِل غير متوفر"}
                     </p>
-                    
+
                     {/* إضافة أزرار القبول والرفض في حال كانت حالة الدعوة معلقة PENDING */}
                     {inv.status === "PENDING" && (
                       <div className="flex items-center gap-2 pt-2 border-t border-gray-900/50">
-                        <button 
+                        <button
                           onClick={() => handleInvitationAction(inv._id, "ACCEPTED")}
                           disabled={actionLoading}
                           className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white py-1.5 rounded text-xs font-bold transition-all disabled:opacity-50"
                         >
                           {actionLoading ? "جاري المعالجة..." : "✔ قبول الانضمام"}
                         </button>
-                        <button 
+                        <button
                           onClick={() => handleInvitationAction(inv._id, "REJECTED")}
                           disabled={actionLoading}
                           className="flex-1 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 py-1.5 rounded text-xs font-bold transition-all disabled:opacity-50"
