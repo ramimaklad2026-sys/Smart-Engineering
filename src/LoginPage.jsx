@@ -1,8 +1,11 @@
 import { useState } from "react";
 import axios from "axios"; 
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import Navbar from "./page/home/components/Navbar"
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -11,7 +14,6 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // 🎯 الدالة المفقودة التي كانت تسبب انهيار الصفحة بالكامل
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -46,12 +48,9 @@ export default function LoginPage() {
         navigate("/projects");
       } else {
         console.warn("Token not found in response structure:", response.data);
-      }
-      
-      // الانتقال الآمن إلى صفحة المشاريع
-      
+      }      
     } catch (err) {
-      const errorMessage = err.response?.data?.message || "Login failed. Please check your credentials.";
+      const errorMessage = err.response?.data?.message || t("login.default_error");
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -60,6 +59,9 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-950 flex">
+      <div className="relative top-0 left-0 w-full z-50 bg-gray-900">
+        <Navbar/>
+      </div>
       {/* ─── Left Panel: Branding ─── */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 bg-gradient-to-br from-gray-900 via-slate-900 to-blue-950 border-r border-gray-800">
         {/* Logo */}
@@ -76,20 +78,20 @@ export default function LoginPage() {
         {/* Center content */}
         <div>
           <h1 className="text-4xl font-bold text-white leading-tight mb-4">
-            Smart Engineering<br />
-            <span className="text-blue-400">Platform</span>
+            {t("login.smart_engineering")}<br />
+            <span className="text-blue-400">{t("login.platform")}</span>
           </h1>
           <p className="text-gray-400 text-base leading-relaxed max-w-sm">
-            A collaborative environment built for engineers to manage projects, review designs, and deliver results — all in one place.
+            {t("login.hero_desc")}
           </p>
 
           {/* Feature list */}
           <div className="mt-10 space-y-4">
             {[
-              { icon: "🗂️", label: "Project Management" },
-              { icon: "🤝", label: "Team Collaboration" },
-              { icon: "📐", label: "AI 2D to 3D Tool" },
-              { icon: "📋", label: "Client Review Page" },
+              { icon: "🗂️", label: t("login.features.project_mgmt") },
+              { icon: "🤝", label: t("login.features.team_collab") },
+              { icon: "📐", label: t("login.features.ai_tool") },
+              { icon: "📋", label: t("login.features.client_review") },
             ].map((f) => (
               <div key={f.label} className="flex items-center gap-3">
                 <span className="text-xl">{f.icon}</span>
@@ -100,7 +102,7 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-gray-600 text-xs">© 2026 BuildSphere. All rights reserved.</p>
+        <p className="text-gray-600 text-xs">{t("login.copyright")}</p>
       </div>
 
       {/* ─── Right Panel: Login Form ─── */}
@@ -120,8 +122,8 @@ export default function LoginPage() {
 
           {/* Heading */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-white mb-1">Welcome back</h2>
-            <p className="text-gray-400 text-sm">Sign in to your engineering account</p>
+            <h2 className="text-2xl font-bold text-white mb-1">{t("login.welcome_back")}</h2>
+            <p className="text-gray-400 text-sm">{t("login.subtitle")}</p>
           </div>
 
           {/* Error banner */}
@@ -140,14 +142,14 @@ export default function LoginPage() {
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1.5">
-                Email Address
+                {t("login.email_label")}
               </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="engineer@company.com"
+                placeholder={t("login.email_placeholder")}
                 required
                 className="w-full bg-gray-900 border border-gray-700 text-white placeholder-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
@@ -156,12 +158,12 @@ export default function LoginPage() {
             {/* Password */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-sm font-medium text-gray-300">Password</label>
+                <label className="block text-sm font-medium text-gray-300">{t("login.password_label")}</label>
                 <button
                   type="button"
                   className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
                 >
-                  Forgot password?
+                  {t("login.forgot_password")}
                 </button>
               </div>
               <div className="relative">
@@ -201,7 +203,7 @@ export default function LoginPage() {
                 className="w-4 h-4 rounded border-gray-700 bg-gray-900 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-950"
               />
               <label htmlFor="remember" className="text-sm text-gray-400 cursor-pointer">
-                Remember me for 30 days
+                {t("login.remember_me")}
               </label>
             </div>
 
@@ -217,10 +219,10 @@ export default function LoginPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Signing in...
+                  {t("login.signing_in")}
                 </>
               ) : (
-                "Sign In"
+                t("login.sign_in")
               )}
             </button>
           </form>
@@ -228,21 +230,17 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="flex items-center gap-4 my-6">
             <div className="flex-1 h-px bg-gray-800" />
-            <span className="text-gray-600 text-xs">OR</span>
+            <span className="text-gray-600 text-xs">{t("login.or")}</span>
             <div className="flex-1 h-px bg-gray-800" />
           </div>
 
           {/* Sign up link */}
           <p className="text-center text-sm text-gray-500">
-            Don't have an account?{" "}
+            {t("login.no_account")}{" "}
             <Link to="/register">
-            <button 
-              type="button"
-              onClick={() => onNavigate("register")} 
-              className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
-            >
-              Register here
-            </button>
+              <span className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+                {t("login.register_here")}
+              </span>
             </Link>
           </p>
         </div>

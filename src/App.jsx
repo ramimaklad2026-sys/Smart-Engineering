@@ -4,7 +4,7 @@ import RegisterPage from "./Registerpage";
 import ProjectsPage from "./Projectspage"; 
 import ProjectDetailsPage from "./ProjectDetailsPage";
 import GeminiChat from "./GeminiChat";
-import { Routes, Route } from "react-router";
+import { Routes, Route } from "react-router-dom";
 
 export default function App() {
 

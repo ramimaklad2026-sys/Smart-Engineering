@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import GeminiChat from "./GeminiChat";
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 

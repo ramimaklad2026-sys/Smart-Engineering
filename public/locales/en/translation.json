@@ -4,7 +4,7 @@
     "Features": "Features",
     "How It Works": "How It Works",
     "About": "About",
-    "hero":{
+    "hero": {
         "Eng_Smarter": "Engineering Smarter",
         "BuildBetter": "Build Better",
         "intro": "The all-in-one platform for engineers to manage projects, collaborate with teams, convert drawings with AI, and deliver professional results to clients.",
@@ -15,5 +15,30 @@
         "Smart_Eng_Plat": "Smart Engineering Platform",
         "GetSta": "Get Started Free",
         "SeeFeatures": "See Features"
+    },
+    "login": {
+        "smart_engineering": "Smart Engineering",
+        "platform": "Platform",
+        "hero_desc": "A collaborative environment built for engineers to manage projects, review designs, and deliver results — all in one place.",
+        "features": {
+            "project_mgmt": "Project Management",
+            "team_collab": "Team Collaboration",
+            "ai_tool": "AI 2D to 3D Tool",
+            "client_review": "Client Review Page"
+        },
+        "copyright": "© 2026 BuildSphere. All rights reserved.",
+        "welcome_back": "Welcome back",
+        "subtitle": "Sign in to your engineering account",
+        "email_label": "Email Address",
+        "email_placeholder": "engineer@company.com",
+        "password_label": "Password",
+        "forgot_password": "Forgot password?",
+        "remember_me": "Remember me for 30 days",
+        "signing_in": "Signing in...",
+        "sign_in": "Sign In",
+        "or": "OR",
+        "no_account": "Don't have an account?",
+        "register_here": "Register here",
+        "default_error": "Login failed. Please check your credentials."
     }
 }
