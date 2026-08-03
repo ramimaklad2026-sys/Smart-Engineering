@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
-import ProjectDetailsPage from "./ProjectDetailsPage"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
+import ProjectDetailsPage from "./Projectdetailspage.jsx"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
 import { Link } from "react-router-dom";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";

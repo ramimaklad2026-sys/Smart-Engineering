@@ -2,7 +2,7 @@ import LandingPage from "./page/home/Landingpage";
 import LoginPage from "./page/log-sign-in/LoginPage";
 import RegisterPage from "./Registerpage";
 import ProjectsPage from "./Projectspage"; 
-import ProjectDetailsPage from "./ProjectDetailsPage";
+import ProjectDetailsPage from "./Projectdetailspage.jsx";
 import GeminiChat from "./GeminiChat";
 import { Routes, Route } from "react-router-dom";
 
