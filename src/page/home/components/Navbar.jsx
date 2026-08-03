@@ -83,6 +83,13 @@ export default function Navbar({navLinks}) {
         </div>
 
         {/* Mobile menu button */}
+        <div className="md:hidden flex items-center gap-3">
+        <button
+            onClick={changeLanguage}
+            className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
+          >
+            {i18n.language === 'en' ? 'العربية' : 'English'}
+          </button>
         <button
           className="md:hidden text-gray-400 hover:text-white transition-colors"
           onClick={() => setMenuOpen((p) => !p)}
@@ -97,6 +104,7 @@ export default function Navbar({navLinks}) {
             </svg>
           )}
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -116,19 +124,15 @@ export default function Navbar({navLinks}) {
             </button>
           ))}
           <div className="pt-2 flex flex-col gap-2">
-            <Link to="/login">
-              <button
+            <Link to="/login"
                 className="w-full text-center text-gray-300 border border-gray-700 hover:border-gray-500 text-sm py-2.5 rounded-lg transition-colors"
               >
                 {t('SignIn')}
-              </button>
             </Link>
-            <Link to="/register">
-              <button
+            <Link to="/register"
                 className="w-full text-center bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold py-2.5 rounded-lg transition-colors"
               >
                 {t('GetStarted')}
-              </button>
             </Link>
           </div>
         </div>

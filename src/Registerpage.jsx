@@ -1,23 +1,26 @@
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import Navbar from "./page/home/components/Navbar"
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
 const SPECIALTIES = [
-  "Civil Engineering",
-  "Structural Engineering",
-  "Mechanical Engineering",
-  "Electrical Engineering",
-  "Software Engineering",
-  "Architectural Engineering",
-  "Environmental Engineering",
-  "Industrial Engineering",
-  "Chemical Engineering",
-  "Other",
+  { value: "Civil Engineering", key: "spec_civil" },
+  { value: "Structural Engineering", key: "spec_structural" },
+  { value: "Mechanical Engineering", key: "spec_mechanical" },
+  { value: "Electrical Engineering", key: "spec_electrical" },
+  { value: "Software Engineering", key: "spec_software" },
+  { value: "Architectural Engineering", key: "spec_architectural" },
+  { value: "Environmental Engineering", key: "spec_environmental" },
+  { value: "Industrial Engineering", key: "spec_industrial" },
+  { value: "Chemical Engineering", key: "spec_chemical" },
+  { value: "Other", key: "spec_other" },
 ];
 
 export default function RegisterPage() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -41,10 +44,10 @@ export default function RegisterPage() {
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
     const levels = [
-      { score: 1, label: "Weak", color: "bg-red-500" },
-      { score: 2, label: "Fair", color: "bg-yellow-500" },
-      { score: 3, label: "Good", color: "bg-blue-500" },
-      { score: 4, label: "Strong", color: "bg-green-500" },
+      { score: 1, label: t("register.strength_weak"), color: "bg-red-500" },
+      { score: 2, label: t("register.strength_fair"), color: "bg-yellow-500" },
+      { score: 3, label: t("register.strength_good"), color: "bg-blue-500" },
+      { score: 4, label: t("register.strength_strong"), color: "bg-green-500" },
     ];
     return levels[score - 1] || { score: 0, label: "", color: "" };
   };
@@ -58,12 +61,12 @@ export default function RegisterPage() {
   };
 
   const validate = () => {
-    if (!formData.name.trim()) return "Please enter your full name.";
-    if (!formData.email.trim()) return "Please enter your email address.";
-    if (!/\S+@\S+\.\S+/.test(formData.email)) return "Please enter a valid email address.";
-    if (!formData.specialty) return "Please select your engineering specialty.";
-    if (formData.password.length < 8) return "Password must be at least 8 characters.";
-    if (formData.password !== formData.confirmPassword) return "Passwords do not match.";
+    if (!formData.name.trim()) return t("register.err_full_name");
+    if (!formData.email.trim()) return t("register.err_email");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return t("register.err_valid_email");
+    if (!formData.specialty) return t("register.err_specialty");
+    if (formData.password.length < 8) return t("register.err_password_len");
+    if (formData.password !== formData.confirmPassword) return t("register.err_password_match");
     return null;
   };
 
@@ -101,44 +104,37 @@ export default function RegisterPage() {
         console.warn("Token not found in response structure:", response.data);
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || "Registration failed. Please try again.";
+      const errorMessage = err.response?.data?.message || t("register.err_reg_failed");
       setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
+  const steps = [
+    { step: "01", title: t("register.step1_title"), desc: t("register.step1_desc") },
+    { step: "02", title: t("register.step2_title"), desc: t("register.step2_desc") },
+    { step: "03", title: t("register.step3_title"), desc: t("register.step3_desc") },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-950 flex">
-
+      <Navbar navLinks={[]} />
       {/* Left Panel: Branding */}
       <div className="hidden lg:flex lg:w-5/12 flex-col justify-between p-12 bg-gradient-to-br from-gray-900 via-slate-900 to-blue-950 border-r border-gray-800">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <span className="text-white font-semibold text-lg tracking-wide">BuildSphere</span>
-        </div>
 
-        <div>
+        <div className="pt-20">
           <h1 className="text-4xl font-bold text-white leading-tight mb-4">
-            Join the<br />
-            <span className="text-blue-400">Engineering</span><br />
-            Community
+            {t("register.join_the")}<br />
+            <span className="text-blue-400">{t("register.engineering")}</span><br />
+            {t("register.community")}
           </h1>
           <p className="text-gray-400 text-base leading-relaxed max-w-sm">
-            Connect with engineers, manage projects, and use AI-powered tools — all from one platform.
+            {t("register.description")}
           </p>
 
           <div className="mt-10 space-y-5">
-            {[
-              { step: "01", title: "Create your account", desc: "Fill in your details below" },
-              { step: "02", title: "Set up your profile", desc: "Add your skills and experience" },
-              { step: "03", title: "Start collaborating", desc: "Join projects and teams" },
-            ].map((item) => (
+            {steps.map((item) => (
               <div key={item.step} className="flex items-start gap-4">
                 <span className="text-blue-500 font-bold text-xs mt-0.5 w-6 flex-shrink-0">{item.step}</span>
                 <div>
@@ -150,13 +146,12 @@ export default function RegisterPage() {
           </div>
         </div>
 
-        <p className="text-gray-600 text-xs">© 2026 BuildSphere. All rights reserved.</p>
+        <p className="text-gray-600 text-xs">{t("register.copyright")}</p>
       </div>
 
       {/* Right Panel: Register Form */}
       <div className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-md">
-
           {/* Mobile logo */}
           <div className="flex lg:hidden items-center gap-2 mb-8">
             <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
@@ -169,8 +164,8 @@ export default function RegisterPage() {
           </div>
 
           <div className="mb-7">
-            <h2 className="text-2xl font-bold text-white mb-1">Create your account</h2>
-            <p className="text-gray-400 text-sm">Join thousands of engineers on the platform</p>
+            <h2 className="text-2xl font-bold text-white mb-1">{t("register.create_account_title")}</h2>
+            <p className="text-gray-400 text-sm">{t("register.create_account_subtitle")}</p>
           </div>
 
           {/* Error banner */}
@@ -184,16 +179,15 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Full Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Full Name</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">{t("register.full_name_label")}</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Ahmed Al-Rashidi"
+                placeholder={t("register.full_name_placeholder")}
                 required
                 className="w-full bg-gray-900 border border-gray-700 text-white placeholder-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
@@ -201,13 +195,13 @@ export default function RegisterPage() {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Email Address</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">{t("register.email_label")}</label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="engineer@company.com"
+                placeholder={t("register.email_placeholder")}
                 required
                 className="w-full bg-gray-900 border border-gray-700 text-white placeholder-gray-600 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
               />
@@ -215,7 +209,7 @@ export default function RegisterPage() {
 
             {/* Specialty */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Engineering Specialty</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">{t("register.specialty_label")}</label>
               <select
                 name="specialty"
                 value={formData.specialty}
@@ -223,23 +217,23 @@ export default function RegisterPage() {
                 required
                 className="w-full bg-gray-900 border border-gray-700 text-white rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors appearance-none cursor-pointer"
               >
-                <option value="" disabled className="text-gray-600">Select your specialty...</option>
+                <option value="" disabled className="text-gray-600">{t("register.specialty_placeholder")}</option>
                 {SPECIALTIES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s.value} value={s.value}>{t(`register.${s.key}`)}</option>
                 ))}
               </select>
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">{t("register.password_label")}</label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="Min. 8 characters"
+                  placeholder={t("register.password_placeholder")}
                   required
                   className="w-full bg-gray-900 border border-gray-700 text-white placeholder-gray-600 rounded-lg px-4 py-3 pr-11 text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors"
                 />
@@ -273,7 +267,7 @@ export default function RegisterPage() {
                     ))}
                   </div>
                   <p className="text-xs text-gray-500">
-                    Password strength:{" "}
+                    {t("register.password_strength")}{" "}
                     <span className={
                       passwordStrength.score >= 3 ? "text-green-400" :
                         passwordStrength.score === 2 ? "text-yellow-400" : "text-red-400"
@@ -287,14 +281,14 @@ export default function RegisterPage() {
 
             {/* Confirm Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-1.5">Confirm Password</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1.5">{t("register.confirm_password_label")}</label>
               <div className="relative">
                 <input
                   type={showConfirm ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  placeholder="Re-enter your password"
+                  placeholder={t("register.confirm_password_placeholder")}
                   required
                   className={`w-full bg-gray-900 border text-white placeholder-gray-600 rounded-lg px-4 py-3 pr-11 text-sm focus:outline-none focus:ring-1 transition-colors ${formData.confirmPassword && formData.confirmPassword !== formData.password
                     ? "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -321,10 +315,10 @@ export default function RegisterPage() {
                 </button>
               </div>
               {formData.confirmPassword && formData.confirmPassword !== formData.password && (
-                <p className="text-xs text-red-400 mt-1">Passwords do not match</p>
+                <p className="text-xs text-red-400 mt-1">{t("register.passwords_no_match")}</p>
               )}
               {formData.confirmPassword && formData.confirmPassword === formData.password && (
-                <p className="text-xs text-green-400 mt-1">✓ Passwords match</p>
+                <p className="text-xs text-green-400 mt-1">{t("register.passwords_match")}</p>
               )}
             </div>
 
@@ -337,7 +331,7 @@ export default function RegisterPage() {
                 className="w-4 h-4 mt-0.5 rounded border-gray-700 bg-gray-900 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-950 flex-shrink-0"
               />
               <label htmlFor="terms" className="text-xs text-gray-400 cursor-pointer leading-relaxed">
-                I agree to the <span className="text-blue-400 hover:text-blue-300">Terms of Service</span> and <span className="text-blue-400 hover:text-blue-300">Privacy Policy</span>
+                {t("register.agree_to")} <span className="text-blue-400 hover:text-blue-300">{t("register.terms")}</span> {t("register.and")} <span className="text-blue-400 hover:text-blue-300">{t("register.privacy_policy")}</span>
               </label>
             </div>
 
@@ -353,25 +347,21 @@ export default function RegisterPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
                   </svg>
-                  Creating account...
+                  {t("register.creating_account")}
                 </>
               ) : (
-                "Create Account"
+                t("register.create_account_btn")
               )}
             </button>
           </form>
 
           {/* Login link */}
           <p className="text-center text-sm text-gray-500 mt-6">
-            Already have an account?{" "}
-            <Link to="/Login">
-            <button className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
-            >
-              Sign in
-            </button>
+            {t("register.already_have_account")}{" "}
+            <Link to="/Login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+              {t("register.sign_in")}
             </Link>
           </p>
-
         </div>
       </div>
     </div>
