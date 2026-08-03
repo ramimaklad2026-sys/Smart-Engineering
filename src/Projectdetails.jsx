@@ -14,7 +14,7 @@ const STATUS_CONFIG = {
   ACTIVE: { bg: "bg-emerald-500/10", text: "text-emerald-400", dot: "bg-emerald-400" },
 };
 
-export default function ProjectDetailsPage() {
+export default function Projectdetails() {
   const [project, setProject] = useState(null);
   const [blueprints, setBlueprints] = useState([]);
   const [loading, setLoading] = useState(true);
