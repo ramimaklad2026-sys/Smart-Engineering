@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios"; 
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Navbar from "./page/home/components/Navbar"
+import Navbar from "../home/components/Navbar"
 
 export default function LoginPage() {
   const { t } = useTranslation();
@@ -57,26 +57,20 @@ export default function LoginPage() {
     }
   };
 
+  const navLinks = [];
+
   return (
     <div className="min-h-screen bg-gray-950 flex">
-      <div className="relative top-0 left-0 w-full z-50 bg-gray-900">
-        <Navbar/>
+      <div className="fixed top-0 left-0 w-full z-50 bg-gray-900">
+        <Navbar navLinks={navLinks} />
       </div>
       {/* ─── Left Panel: Branding ─── */}
       <div className="hidden lg:flex lg:w-1/2 flex-col justify-between p-12 bg-gradient-to-br from-gray-900 via-slate-900 to-blue-950 border-r border-gray-800">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blue-500 rounded-lg flex items-center justify-center">
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-          </div>
-          <span className="text-white font-semibold text-lg tracking-wide">BuildSphere</span>
-        </div>
+        
 
         {/* Center content */}
-        <div>
+        <div className="pt-20">
           <h1 className="text-4xl font-bold text-white leading-tight mb-4">
             {t("login.smart_engineering")}<br />
             <span className="text-blue-400">{t("login.platform")}</span>

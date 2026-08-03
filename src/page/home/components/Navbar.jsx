@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 
 
-export default function Navbar() {
+export default function Navbar({navLinks}) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
@@ -26,7 +26,6 @@ export default function Navbar() {
     document.documentElement.lang = newLanguage;
   };
 
-  const navLinks = [t("Features"), t("How It Works"), t("About")];
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-gray-950/95 backdrop-blur-md border-b border-gray-800/60 py-3" : "bg-transparent py-5"

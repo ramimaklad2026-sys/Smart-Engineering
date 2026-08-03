@@ -5,6 +5,7 @@ import Features from "./components/Features";
 import Footer from "./components/Footer";
 import HowItWorks from "./components/HowItWorks";
 import CTA from "./components/CTA";
+import { t } from "i18next";
 
 // ─── Hook: Intersection Observer for scroll animations ───
 function useInView(threshold = 0.15) {
@@ -30,10 +31,13 @@ export default function LandingPage({ onNavigate }) {
   const handleNavigate = (page) => {
     onNavigate(page);
   };
+  
+    const navLinks = [t("Features"), t("How It Works"), t("About")];
+
 
   return (
     <div className="bg-gray-950 min-h-screen">
-      <Navbar onNavigate={handleNavigate} />
+      <Navbar onNavigate={handleNavigate} navLinks={navLinks} />
       <Hero onNavigate={handleNavigate} />
       <Features useInView={useInView} />
       <HowItWorks useInView={useInView} />
