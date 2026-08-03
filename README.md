@@ -1,16 +1,45 @@
-# React + Vite
+# 👩‍🔬 Smart Engineering Platform
+The Smart Engineering Platform is a comprehensive solution designed to streamline the engineering process, enhance collaboration, and improve project outcomes. It offers a range of features that cater to the needs of engineers, project managers, and clients alike.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+<img src='./src/assets/Screenshot%202026-08-03%20121253.png'/></div>
 
-Currently, two official plugins are available:
+## 🚀 Features:
+- Project management
+- Team collaboration
+- Engineering drawing sharing
+- AI-powered 2D-to-3D drawing conversion
+- AI assistant for engineering-related questions
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🛠️ Stack:
+- "Vite" for fast development and build
+- "React" for building the user interface
+- "React Router" for routing
+- "Tailwind CSS" for styling
+- "react-18next" for translation
+- "Axios" for making HTTP requests
 
-## React Compiler
+## 🔽 Installation:
+1. Clone the repository:
+   
+   ```bash
+   git clone https://github.com/ramimaklad2026-sys/Smart-Engineering-Platform.git
+    ```
+2. Navigate to the project directory:
+   
+   ```bash
+   cd smart-engineering-platform
+   ```
+3. Install dependencies:
+   
+   ```bash
+    npm install
+    ```
+4. Start the development server:
+   
+   ```bash
+    npm run dev
+    ```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# 📝 Note
+* This repository contains the final-year project developed by @moh-bash and @ramimaklad2026-sys for our university.
