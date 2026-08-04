@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import GeminiChat from "./GeminiChat";
+import GeminiChat from "../../GeminiChat";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Astroid, BellRing, SquarePen, SquarePlus, UserRound, UserRoundPlus } from "lucide-react";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -23,7 +24,7 @@ export default function Projectdetails() {
   const { projectId } = useParams();
   const { t, i18n } = useTranslation();
 
-const changeLanguage = () => {
+  const changeLanguage = () => {
     const newLanguage = i18n.language === "en" ? "ar" : "en";
 
     i18n.changeLanguage(newLanguage);
@@ -373,45 +374,60 @@ const changeLanguage = () => {
   return (
     <div className="min-h-screen bg-[#070a13] text-gray-200  font-sans" dir="rtl">
       <header className="bg-[#0b0f19] border-b border-gray-900 sticky top-0 z-40 backdrop-blur-md">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="max-w-5xl mx-auto px-4 py-2 flex justify-between items-center">
           <div className="flex items-center gap-3">
-            <Link to="/projects" className="text-xs text-gray-400 hover:text-white bg-gray-900 px-3 py-1.5 rounded border border-gray-800">← عودة</Link>
-            <h1 className="text-base font-bold text-white">{project?.title}</h1>
+            <Link to="/profile">
+              <div className="relative shrink-0">
+                <div className="w-13 h-13 grid place-items-center overflow-hidden border-[5px] border-[#101a2d] rounded-3xl text-[#93c5fd] bg-gradient-to-br from-[#1e3a8a] to-[#172554] shadow-[0_15px_35px_rgba(0,0,0,0.35)]">
+                  <UserRound size={25} />
+                </div>
+                <span className="absolute -right-[1px] bottom-[9px] w-[20px] h-[20px] border-[4px] border-[#101a2d] rounded-full bg-[#22c55e]" />
+              </div>
+            </Link>
+            <button
+              onClick={changeLanguage}
+              className="bg-blue-600 text-white hover:text-white text-sm transition-colors px-4 py-1"
+            >
+              {i18n.language === 'en' ? 'العربية' : 'English'}
+            </button>
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}>{project?.status || "Pending"}</span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowNotificationsModal(true)}
-              className="relative bg-gray-900 border border-gray-800 hover:bg-gray-800 text-gray-300 p-2 rounded text-xs font-bold shadow-md flex items-center justify-center gap-1.5"
+              className="relative bg-gray-900 border border-gray-800 hover:bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-bold shadow-md flex items-center justify-center gap-1.5"
               title="الإشعارات والدعوات الواردة"
             >
-              🔔 <span className="hidden sm:inline">الإشعارات</span>
+              <BellRing />
               {invitations.length > 0 && (
                 <span className="absolute -top-1 -left-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center animate-pulse">
                   {invitations.length}
                 </span>
               )}
             </button>
-           
+            <button
+              onClick={handleOpenChat}
+              className={`bg-gradient-to-r ${isOpenChat ? 'from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500' : 'from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500'} text-white px-2 py-1 rounded text-xs font-bold shadow-md`}
+            >
+              <Astroid />
+            </button>
+            <button onClick={() => setShowInviteModal(true)} className="bg-emerald-600 hover:bg-emerald-500 text-white px-2 py-1 rounded text-xs font-bold shadow-md">
+              <UserRoundPlus />
+            </button>
+            <button onClick={() => setShowBlueprintModal(true)} className="bg-blue-600 hover:bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold">
+              <SquarePlus />
+            </button>
+            <button onClick={() => setShowEditModal(true)} className="bg-gray-900 border border-gray-800 px-2 py-1 rounded text-xs text-gray-300 hover:bg-gray-800">
+              <SquarePen />
+            </button>
 
-            <button onClick={() => setShowInviteModal(true)} className="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md">📩 دعوة انضمام</button>
-            <button onClick={() => setShowBlueprintModal(true)} className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 rounded text-xs font-bold">📐 إضافة مخطط جديد</button>
-            <button onClick={() => setShowEditModal(true)} className="bg-gray-900 border border-gray-800 px-3 py-2 rounded text-xs text-gray-300 hover:bg-gray-800">تعديل المشروع</button>
-             <button
-            onClick={changeLanguage}
-            className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
-          >
-            {i18n.language === 'en' ? 'العربية' : 'English'}
-          </button>
           </div>
         </div>
       </header>
       <div className="grid grid-cols-5 gap-6 w-full">
-        <button onClick={handleOpenChat} className={`fixed top-20 left-2 bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-2 rounded text-xs font-bold shadow-md mb-4 z-50 ${isOpenChat ? 'bg-red-600 hover:bg-red-500' : ''}`}>
-          {isOpenChat ? "إغلاق المساعد الذكي " : "فتح المساعد الذكي "}
-        </button>
-        <main className={`relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'col-span-3' : 'col-span-5'}`}>
+        <main className={`min-w-md px-2 md:min-w-3xl relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'hidden md:block col-span-5 md:col-span-3' : 'col-span-5'}`}>
           <div>
+            <h1 className="text-base font-bold text-white mb-3">{project?.title}</h1>
             <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
               <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
               <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
@@ -485,7 +501,7 @@ const changeLanguage = () => {
         </main>
 
         {isOpenChat && (
-          <div className="col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
+          <div className="col-span-5 md:col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
             <GeminiChat />
           </div>
         )}

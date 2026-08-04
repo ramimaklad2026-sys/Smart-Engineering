@@ -1,8 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import axios from "axios";
-import ProjectDetailsPage from "./Projectdetails.jsx"; // 👈 استيراد صفحة التفاصيل الاحترافية الجديدة
 import { Link } from "react-router-dom";
-import { UserRound } from "lucide-react";
+import { SquarePlus, UserRound } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
@@ -192,7 +191,7 @@ export default function ProjectsPage({ onNavigate }) {
   const [loadingPage, setLoadingPage] = useState(true);
   const [pageError, setPageError] = useState("");
   const [retryCount, setRetryCount] = useState(0);
-      const { t, i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
 
   const [activeProjectId, setActiveProjectId] = useState(null);
@@ -334,16 +333,17 @@ export default function ProjectsPage({ onNavigate }) {
               </button>
             )}
             <button
-            onClick={changeLanguage}
-            className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
-          >
-            {i18n.language === 'en' ? 'العربية' : 'English'}
-          </button>
+              onClick={changeLanguage}
+              className="text-gray-300 hover:text-white text-sm transition-colors px-4 py-2"
+            >
+              {i18n.language === 'en' ? 'العربية' : 'English'}
+            </button>
             <button
               onClick={() => setShowModal(true)}
-              className="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-all"
+              className="flex items-center gap-1 bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-3 py-1.5 rounded-lg transition-all"
             >
-              New Project
+              <SquarePlus />
+              <span className="hidden sm:inline">New Project</span>
             </button>
             <Link to="/profile">
               <div className="relative shrink-0">
@@ -403,7 +403,7 @@ export default function ProjectsPage({ onNavigate }) {
               <ProjectCard
                 key={project._id || project.id || index}
                 project={project}
-                onView={(id) => setActiveProjectId(id)} // 👈 تفعيل الانتقال الحقيقي بالـ ID
+                onView={(id) => setActiveProjectId(id)}
                 onDelete={handleDeleteProject}
               />
             ))}

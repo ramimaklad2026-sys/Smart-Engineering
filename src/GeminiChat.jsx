@@ -1,15 +1,15 @@
 import { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { FileBox, FileBoxIcon } from 'lucide-react';
 
 const GeminiChat = () => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);    
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
-  // التمرير التلقائي لأسفل المحادثة عند إضافة رسالة جديدة
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -22,20 +22,17 @@ const GeminiChat = () => {
     e.preventDefault();
     if (!input.trim()) return;
 
-    // 1. إضافة سؤال المستخدم إلى الشاشة فوراً
     const userMessage = { text: input, isUser: true };
     setMessages((prev) => [...prev, userMessage]);
-    setInput(""); 
+    setInput("");
     setLoading(true);
 
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
-      // 2. إرسال الطلب لـ Gemini
       const result = await model.generateContent(userMessage.text);
       const text = result.response.text();
 
-      // 3. إضافة إجابة Gemini إلى الشاشة
       setMessages((prev) => [...prev, { text: text, isUser: false }]);
     } catch (error) {
       console.error("حدث خطأ:", error);
@@ -48,12 +45,12 @@ const GeminiChat = () => {
     }
   };
 
+
   return (
-    <div 
+    <div
       className="h-[645px] bg-gray-50 dark:bg-gray-900 bp-16 text-gray-800 dark:text-gray-100 flex flex-col font-sans transition-colors duration-300"
-      dir="rtl" // لضبط اتجاه النص ليدعم العربية بشكل صحيح
+      dir="rtl"
     >
-      {/* الترويسة */}
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-4 px-6 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
@@ -71,18 +68,17 @@ const GeminiChat = () => {
           )}
 
           {messages.map((msg, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`flex ${msg.isUser ? 'justify-start' : 'justify-end'}`} // المستخدم على اليمين (بسبب rtl)، والرد على اليسار
             >
-              <div 
-                className={`max-w-[85%] md:max-w-[75%] p-4 rounded-2xl shadow-sm ${
-                  msg.isUser 
-                    ? 'bg-indigo-600 text-white rounded-tr-none' 
-                    : msg.isError 
+              <div
+                className={`max-w-[85%] md:max-w-[75%] p-4 rounded-2xl shadow-sm ${msg.isUser
+                    ? 'bg-indigo-600 text-white rounded-tr-none'
+                    : msg.isError
                       ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-tl-none'
                       : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-tl-none text-gray-800 dark:text-gray-200'
-                }`}
+                  }`}
               >
                 <p className="whitespace-pre-wrap leading-relaxed text-sm md:text-base">
                   {msg.text}
@@ -91,7 +87,6 @@ const GeminiChat = () => {
             </div>
           ))}
 
-          {/* مؤشر التحميل */}
           {loading && (
             <div className="flex justify-end">
               <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-2xl rounded-tl-none shadow-sm flex gap-2 items-center">
@@ -105,33 +100,33 @@ const GeminiChat = () => {
         </div>
       </main>
 
-      {/* منطقة الإدخال (شريط الكتابة) */}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 sticky bottom-0">
-        <form 
-          onSubmit={handleSubmit} 
-          className="max-w-4xl mx-auto relative flex items-end gap-2 bg-gray-100 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-2 focus-within:ring-2 focus-within:ring-indigo-500 transition-all"
+      <footer className="flex bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 sticky bottom-0">
+        <button className=" bg-gray-200 dark:bg-gray-700 py-2 px-4 mx-2 rounded-full hover:bg-gray-300 dark:hover:bg-blue-600 border border-blue-500 shadow-lg shadow-blue-500/90 transition-colors">
+          <FileBoxIcon />
+        </button>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full mx-auto relative flex items-end gap-2 bg-gray-100 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-1 focus-within:ring-2 focus-within:ring-indigo-500 transition-all"
         >
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => {
-              // إرسال بالضغط على Enter بدون Shift
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                if(!loading) handleSubmit(e);
+                if (!loading) handleSubmit(e);
               }
             }}
             placeholder="اسألني أي شيء..."
             rows="1"
-            className="w-full bg-transparent resize-none outline-none p-3 max-h-32 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
+            className="w-full bg-transparent resize-none outline-none p-2 max-h-30 text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
             style={{ minHeight: '50px' }}
           />
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={loading || !input.trim()}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center mb-1 ml-1"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-lg flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center mb-1 ml-1"
           >
-            {/* أيقونة إرسال (SVG) */}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 rotate-180">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
             </svg>

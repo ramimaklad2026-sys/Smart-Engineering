@@ -1,8 +1,8 @@
 import LandingPage from "./page/home/Landingpage";
 import LoginPage from "./page/log-sign-in/LoginPage";
 import RegisterPage from "./page/log-sign-in/Registerpage";
-import ProjectsPage from "./Projectspage"; 
-import Projectdetails from "./Projectdetails";
+import ProjectsPage from "./page/project/Projectspage"; 
+import Projectdetails from "./page/project/Projectdetails";
 import GeminiChat from "./GeminiChat";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./profile";
