@@ -4,6 +4,7 @@ import GeminiChat from "../../GeminiChat";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Astroid, BellRing, SquarePen, SquarePlus, UserRound, UserRoundPlus } from "lucide-react";
+import ProjectTasksBoard from "./components/ProjectTasksBoard";
 
 const API_BASE_URL = "https://buildsphere-backend.onrender.com";
 
@@ -19,10 +20,13 @@ const STATUS_CONFIG = {
 export default function Projectdetails() {
   const [project, setProject] = useState(null);
   const [blueprints, setBlueprints] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isOpenChat, setIsOpenChat] = useState(false);
   const { projectId } = useParams();
   const { t, i18n } = useTranslation();
+  const [isSiktion, setIsSiktion] = useState(false);
+
 
   const changeLanguage = () => {
     const newLanguage = i18n.language === "en" ? "ar" : "en";
@@ -134,6 +138,7 @@ export default function Projectdetails() {
           const projectData = response.data.data.project;
           setProject(projectData);
           setBlueprints(response.data.data.blueprints || []);
+          setTasks(response.data.data.tasks || []);
           if (projectData) {
             setEditTitle(projectData.title || "");
             setEditDescription(projectData.description || "");
@@ -371,6 +376,7 @@ export default function Projectdetails() {
     }
   }
 
+
   return (
     <div className="min-h-screen bg-[#070a13] text-gray-200  font-sans" dir="rtl">
       <header className="bg-[#0b0f19] border-b border-gray-900 sticky top-0 z-40 backdrop-blur-md">
@@ -393,6 +399,14 @@ export default function Projectdetails() {
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}>{project?.status || "Pending"}</span>
           </div>
           <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <button onClick={() => setIsSiktion(false)} className={`text-white px-4 py-2 rounded-lg text-sm font-bold ${!isSiktion ? 'bg-blue-700' : 'bg-gray-700'}`}>
+                tasks
+              </button>
+              <button onClick={() => setIsSiktion(true)} className={`text-white px-4 py-2 rounded-lg text-sm font-bold ${isSiktion ? 'bg-blue-700' : 'bg-gray-700'}`}>
+                ditales
+              </button>
+            </div>
             <button
               onClick={() => setShowNotificationsModal(true)}
               className="relative bg-gray-900 border border-gray-800 hover:bg-gray-800 text-gray-300 px-2 py-1 rounded text-xs font-bold shadow-md flex items-center justify-center gap-1.5"
@@ -424,89 +438,102 @@ export default function Projectdetails() {
           </div>
         </div>
       </header>
-      <div className="grid grid-cols-5 gap-6 w-full">
-        <main className={`min-w-md px-2 md:min-w-3xl relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'hidden md:block col-span-5 md:col-span-3' : 'col-span-5'}`}>
-          <div>
-            <h1 className="text-base font-bold text-white mb-3">{project?.title}</h1>
-            <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
-              <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
-              <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
-            </section>
 
-            <section className="space-y-8">
-              <h2 className="text-sm font-bold text-white border-r-2 border-blue-500 pr-2">المخططات واللوحات الهندسية الحالية</h2>
-              {blueprints.length === 0 ? (
-                <div className="text-center py-20 bg-[#0b0f19] border border-dashed border-gray-900 rounded-xl text-gray-500 text-sm">لم يتم رفع أي مخططات هندسية بعد لهذا المشروع الهيكلي.</div>
-              ) : (
-                blueprints.map((bp) => {
-                  const targetImage = bp.images && bp.images.length > 0 ? bp.images[bp.images.length - 1] : null;
-                  let finalImgUrl = "";
-                  if (targetImage && targetImage.imageUrl) {
-                    const cleanPath = targetImage.imageUrl.replace(/^\//, "");
-                    finalImgUrl = cleanPath.startsWith("http") ? cleanPath : `${API_BASE_URL}/${cleanPath}`;
-                  }
+      {
+        isSiktion === true &&
+        <div className="grid grid-cols-5 gap-6 w-full">
+          <main className={`min-w-md px-2 md:min-w-3xl relative max-w-4xl mx-auto px-2 py-6 ${isOpenChat ? 'hidden md:block col-span-5 md:col-span-3' : 'col-span-5'}`}>
+            <div>
+              <h1 className="text-base font-bold text-white mb-3">{project?.title}</h1>
+              <section className="bg-[#0b0f19] border border-gray-900 rounded-xl p-5 space-y-2 shadow-sm">
+                <span className="text-xs text-gray-500 block font-medium">نطاق العمل ووصف المشروع الفني:</span>
+                <p className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">{project?.description || "لا يوجد وصف حالي لهذا المشروع الهندسي."}</p>
+              </section>
 
-                  return (
-                    <div key={bp._id} className="bg-[#0b0f19] border border-gray-900 rounded-xl overflow-hidden p-6 space-y-5 shadow-2xl">
-                      <div className="flex justify-between items-start border-b border-gray-900/60 pb-3">
-                        <div className="space-y-1">
-                          <h4 className="text-base font-bold text-white">{bp.title}</h4>
-                          {bp.description && <p className="text-xs text-gray-400 font-normal">{bp.description}</p>}
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <button onClick={() => openEditBlueprintModal(bp)} className="text-xs text-gray-300 hover:text-blue-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">تعديل وإضافة صورة</button>
-                          <button onClick={() => handleDeleteBlueprint(bp._id)} className="text-xs text-gray-500 hover:text-red-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">حذف</button>
-                        </div>
-                      </div>
+              <section className="space-y-8">
+                <h2 className="text-sm font-bold text-white border-r-2 border-blue-500 pr-2">المخططات واللوحات الهندسية الحالية</h2>
+                {blueprints.length === 0 ? (
+                  <div className="text-center py-20 bg-[#0b0f19] border border-dashed border-gray-900 rounded-xl text-gray-500 text-sm">لم يتم رفع أي مخططات هندسية بعد لهذا المشروع الهيكلي.</div>
+                ) : (
+                  blueprints.map((bp) => {
+                    const targetImage = bp.images && bp.images.length > 0 ? bp.images[bp.images.length - 1] : null;
+                    let finalImgUrl = "";
+                    if (targetImage && targetImage.imageUrl) {
+                      const cleanPath = targetImage.imageUrl.replace(/^\//, "");
+                      finalImgUrl = cleanPath.startsWith("http") ? cleanPath : `${API_BASE_URL}/${cleanPath}`;
+                    }
 
-                      <div className="w-full bg-[#070a13] rounded-lg border border-gray-900 overflow-hidden flex items-center justify-center p-3 min-h-[350px]">
-                        {finalImgUrl ? (
-                          <img src={finalImgUrl} className="max-w-full h-auto max-h-[550px] object-contain rounded-md" alt={bp.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = `https://placehold.co/800x450/0d1321/38bdf8?text=${encodeURIComponent(bp.title || 'Blueprint')}`; }} />
-                        ) : (
-                          <div className="text-center text-gray-600 text-xs"><p>لا توجد صورة مرتبطة حالياً بالمخطط الإنشائي.</p></div>
-                        )}
-                      </div>
-
-                      {targetImage && (
-                        <div className="bg-[#070a13] p-2 border border-gray-900 rounded-lg max-w-xl mr-auto flex gap-2 items-center shadow-inner">
-                          <input type="text" placeholder="أدخل ملاحظة هندسية دقيقة حول المخطط..." value={noteInputs[bp._id] || ""} onChange={(e) => setNoteInputs(prev => ({ ...prev, [bp._id]: e.target.value }))} onKeyDown={(e) => { if (e.key === 'Enter') handleAddNote(bp._id, targetImage._id); }} className="flex-1 bg-transparent text-white px-3 py-1.5 text-xs focus:outline-none text-right" />
-                          <button onClick={() => handleAddNote(bp._id, targetImage._id)} disabled={!noteInputs[bp._id]?.trim()} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white px-4 py-2 rounded text-xs font-bold whitespace-nowrap">إضافة ملاحظة</button>
-                        </div>
-                      )}
-
-                      <div className="space-y-3 pt-3 border-t border-gray-900/40">
-                        <span className="text-xs font-bold text-gray-400">📌 التوجيهات وملاحظات لجنة الإشراف المشتركة:</span>
-                        {targetImage?.notes && targetImage.notes.length > 0 ? (
-                          <div className="space-y-2">
-                            {targetImage.notes.map((note, index) => (
-                              <div key={note._id || index} className="bg-[#0d1321] border border-gray-900 p-3 rounded-lg flex justify-between items-start gap-4">
-                                <div className="space-y-1">
-                                  <span className="text-[11px] text-gray-500 font-bold">لجنة التدقيق الهندسي</span>
-                                  <p className="text-gray-300 text-xs whitespace-pre-line">{note.text}</p>
-                                </div>
-                                <button onClick={() => handleDeleteNote(bp._id, targetImage._id, note._id)} className="text-gray-600 hover:text-red-400 p-1 text-xs">🗑️</button>
-                              </div>
-                            ))}
+                    return (
+                      <div key={bp._id} className="bg-[#0b0f19] border border-gray-900 rounded-xl overflow-hidden p-6 space-y-5 shadow-2xl">
+                        <div className="flex justify-between items-start border-b border-gray-900/60 pb-3">
+                          <div className="space-y-1">
+                            <h4 className="text-base font-bold text-white">{bp.title}</h4>
+                            {bp.description && <p className="text-xs text-gray-400 font-normal">{bp.description}</p>}
                           </div>
-                        ) : (
-                          <p className="text-gray-600 text-xs italic bg-[#070a13]/30 p-4 rounded-lg border border-gray-900/60">لا توجد سجلات ملاحظات فنية معتمدة حالياً.</p>
+                          <div className="flex items-center gap-1.5">
+                            <button onClick={() => openEditBlueprintModal(bp)} className="text-xs text-gray-300 hover:text-blue-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">تعديل وإضافة صورة</button>
+                            <button onClick={() => handleDeleteBlueprint(bp._id)} className="text-xs text-gray-500 hover:text-red-400 bg-[#070a13] px-3 py-1.5 rounded border border-gray-800">حذف</button>
+                          </div>
+                        </div>
+
+                        <div className="w-full bg-[#070a13] rounded-lg border border-gray-900 overflow-hidden flex items-center justify-center p-3 min-h-[350px]">
+                          {finalImgUrl ? (
+                            <img src={finalImgUrl} className="max-w-full h-auto max-h-[550px] object-contain rounded-md" alt={bp.title} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = `https://placehold.co/800x450/0d1321/38bdf8?text=${encodeURIComponent(bp.title || 'Blueprint')}`; }} />
+                          ) : (
+                            <div className="text-center text-gray-600 text-xs"><p>لا توجد صورة مرتبطة حالياً بالمخطط الإنشائي.</p></div>
+                          )}
+                        </div>
+
+                        {targetImage && (
+                          <div className="bg-[#070a13] p-2 border border-gray-900 rounded-lg max-w-xl mr-auto flex gap-2 items-center shadow-inner">
+                            <input type="text" placeholder="أدخل ملاحظة هندسية دقيقة حول المخطط..." value={noteInputs[bp._id] || ""} onChange={(e) => setNoteInputs(prev => ({ ...prev, [bp._id]: e.target.value }))} onKeyDown={(e) => { if (e.key === 'Enter') handleAddNote(bp._id, targetImage._id); }} className="flex-1 bg-transparent text-white px-3 py-1.5 text-xs focus:outline-none text-right" />
+                            <button onClick={() => handleAddNote(bp._id, targetImage._id)} disabled={!noteInputs[bp._id]?.trim()} className="bg-blue-600 hover:bg-blue-500 disabled:opacity-30 text-white px-4 py-2 rounded text-xs font-bold whitespace-nowrap">إضافة ملاحظة</button>
+                          </div>
                         )}
+
+                        <div className="space-y-3 pt-3 border-t border-gray-900/40">
+                          <span className="text-xs font-bold text-gray-400">📌 التوجيهات وملاحظات لجنة الإشراف المشتركة:</span>
+                          {targetImage?.notes && targetImage.notes.length > 0 ? (
+                            <div className="space-y-2">
+                              {targetImage.notes.map((note, index) => (
+                                <div key={note._id || index} className="bg-[#0d1321] border border-gray-900 p-3 rounded-lg flex justify-between items-start gap-4">
+                                  <div className="space-y-1">
+                                    <span className="text-[11px] text-gray-500 font-bold">لجنة التدقيق الهندسي</span>
+                                    <p className="text-gray-300 text-xs whitespace-pre-line">{note.text}</p>
+                                  </div>
+                                  <button onClick={() => handleDeleteNote(bp._id, targetImage._id, note._id)} className="text-gray-600 hover:text-red-400 p-1 text-xs">🗑️</button>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <p className="text-gray-600 text-xs italic bg-[#070a13]/30 p-4 rounded-lg border border-gray-900/60">لا توجد سجلات ملاحظات فنية معتمدة حالياً.</p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })
-              )}
-            </section>
-          </div>
-        </main>
+                    );
+                  })
+                )}
+              </section>
+            </div>
+          </main>
 
-        {isOpenChat && (
-          <div className="col-span-5 md:col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
-            <GeminiChat />
-          </div>
-        )}
+          {isOpenChat && (
+            <div className="col-span-5 md:col-span-2 w-full  mx-auto px-0 py-0 sticky top-16 right-0 h-[645px] z-30   border-l border-gray-900 bg-[#0b0f19] shadow-lg">
+              <GeminiChat />
+            </div>
+          )}
 
-      </div>
+        </div>
+      }
+
+      {
+        isSiktion === false &&
+        <ProjectTasksBoard
+          projectId={projectId}
+          tasks={tasks}
+          onTasksChange={setTasks}
+        />
+      }
 
       {/* النافذة المنبثقة الخاصة بالإشعارات (الدعوات الواردة) */}
       {showNotificationsModal && (
