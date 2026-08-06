@@ -35,7 +35,7 @@ export default function ChatGPT3D() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white flex items-center justify-center p-6">
+    <div dir="rtl" className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-black text-white flex items-center justify-center p-6">
       <div className="w-full max-w-4xl">
 
         {/* Header */}
