@@ -6,6 +6,7 @@ import Projectdetails from "./page/project/Projectdetails";
 import GeminiChat from "./GeminiChat";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./profile";
+import ChatGPT3D from "./page/project/components/ChatGPT3D";
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
       <Route path="/projects/:projectId" element={<Projectdetails />} />
       <Route path="/profile" element={<Profile/>}/>
       <Route path="/gemini" element={<GeminiChat />} />
+      <Route path="/chatgpt3d" element={<ChatGPT3D />} />
     </Routes>
   )
 }

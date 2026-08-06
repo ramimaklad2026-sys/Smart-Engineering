@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { FileBox, FileBoxIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const GeminiChat = () => {
   const [input, setInput] = useState("");
@@ -101,9 +102,9 @@ const GeminiChat = () => {
       </main>
 
       <footer className="flex bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4 sm:p-6 sticky bottom-0">
-        <button className=" bg-gray-200 dark:bg-gray-700 py-2 px-4 mx-2 rounded-full hover:bg-gray-300 dark:hover:bg-blue-600 border border-blue-500 shadow-lg shadow-blue-500/90 transition-colors">
+        <Link to="/chatgpt3d" className=" bg-gray-200 dark:bg-gray-700 py-2 px-4 mx-2 rounded-full hover:bg-gray-300 dark:hover:bg-blue-600 border border-blue-500 shadow-lg shadow-blue-500/90 transition-colors">
           <FileBoxIcon />
-        </button>
+        </Link>
         <form
           onSubmit={handleSubmit}
           className="w-full mx-auto relative flex items-end gap-2 bg-gray-100 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-1 focus-within:ring-2 focus-within:ring-indigo-500 transition-all"
