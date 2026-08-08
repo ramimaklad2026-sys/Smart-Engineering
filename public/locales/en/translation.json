@@ -181,5 +181,9 @@
         "YourCreatedProjects":"Your created projects will appear here.",
         "CreateProject":"Create Project",
         "ViewAll":"View All"
+    },
+    "ai": {
+        "title": "Smart Assistant",
+        "description": "Leverage AI to assist you in engineering tasks."
     }
 }

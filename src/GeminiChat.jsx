@@ -8,6 +8,7 @@ const GeminiChat = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+  const {t}=useTranslation();
 
   const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
 
@@ -55,7 +56,7 @@ const GeminiChat = () => {
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 py-4 px-6 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
-            المساعد الذكي  🤖
+            {t("ai.title")}
           </h2>
         </div>
       </header>
@@ -64,7 +65,7 @@ const GeminiChat = () => {
         <div className="max-w-4xl mx-auto space-y-6">
           {messages.length === 0 && (
             <div className="text-center text-gray-500 dark:text-gray-400 mt-20">
-              <p className="text-lg">مرحباً! كيف يمكنني مساعدتك اليوم؟</p>
+              <p className="text-lg">{t("ai.description")}</p>
             </div>
           )}
 
